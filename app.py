@@ -84,9 +84,9 @@ if video_data:
         if not ret:
             break
 
-        out_image = process(frame, True, None)
+        out_image = process(frame, True, "A")
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ##<< Generates a grayscale (thus only one 2d-array)
+#        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ##<< Generates a grayscale (thus only one 2d-array)
         out_mp4.write(out_image)
     
     ## Close video files
