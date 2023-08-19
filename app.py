@@ -77,7 +77,7 @@ if video_data:
     
     # specify a writer to write a processed video to a disk frame by frame
     fourcc_mp4 = cv2.VideoWriter_fourcc(*'mp4v')
-    out_mp4 = cv2.VideoWriter(temp_file_result, fourcc_mp4, frame_fps, (width, height), isColor = False)
+    out_mp4 = cv2.VideoWriter(temp_file_result, fourcc_mp4, frame_fps, (width, height))
    
     while True:
         ret, frame = cap.read()
