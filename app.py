@@ -27,7 +27,7 @@ if f is not None:
             print("Can't receive frame (stream end?). Exiting ...")
             break
             
-        gray = cv2.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         stframe.image(gray)
     
 def func(value1, value2):
