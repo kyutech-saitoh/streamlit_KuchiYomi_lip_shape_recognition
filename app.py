@@ -16,7 +16,7 @@ if f is not None:
     tfile = tempfile.NamedTemporaryFile(delete=False) 
     tfile.write(f.read())
 
-    vf = cv.VideoCapture(tfile.name)
+    vf = cv2.VideoCapture(tfile.name)
 
     stframe = st.empty()
 
@@ -26,6 +26,7 @@ if f is not None:
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
+            
         gray = cv2.cvtColor(frame, cv.COLOR_BGR2GRAY)
         stframe.image(gray)
     
