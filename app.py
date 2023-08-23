@@ -197,9 +197,10 @@ if video_data:
     col1, col2 = st.columns(2)
     col1.header("Original Video")
     col1.video(temp_file_to_save)
-    col2.header("Output from OpenCV (MPEG-4)")
-    col2.video(temp_file_result)
-    col2.header("After conversion to H264")
+#    col2.header("Output from OpenCV (MPEG-4)")
+#    col2.video(temp_file_result)
+#    col2.header("After conversion to H264")
+    col2.header("Output")
     col2.video(convertedVideo)
 
 
