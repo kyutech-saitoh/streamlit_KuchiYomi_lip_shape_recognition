@@ -130,15 +130,14 @@ def process(image, is_show_image, draw_pattern):
             points = []
             if results.multi_face_landmarks:
                 for face in results.multi_face_landmarks:
-                   for landmark in face.landmark:
+                    for landmark in face.landmark:
                         x = func(landmark.x, image_width)
                         y = func(landmark.y, image_height)
             
-                        points.append((x, y))
-    
+                    points.append((x, y))
                     rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
                     faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
-
+                    
                     out_image[0: size_faceROI, 0: size_faceROI] = faceROI
             
 
