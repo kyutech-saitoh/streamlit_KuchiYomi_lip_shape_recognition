@@ -57,9 +57,9 @@ def faceROI_extraction(image, face_points0):
 
 
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
-    eye_distance = numpy.sqrt(eye_distance2)
+    eye_distance = np.sqrt(eye_distance2)
     
-    eye_angle = numpy.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+    eye_angle = np.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
 
     target_eye_distance = 55
 
