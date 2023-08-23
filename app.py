@@ -79,6 +79,23 @@ def faceROI_extraction(image, face_points0):
     normalized_image1 = cv2.warpAffine(image, mat_rot, (image_width_, image_height_))
     normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (image_width_, image_height_))
 
+    face_points1 = []
+    for p0 in face_points0:
+        x0 = p0[0]
+        y0 = p0[1]
+        x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
+        y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
+        x2 = x1 + mat_tra[0][2]
+        y2 = y1 + mat_tra[1][2]
+
+        face_points1.append((x2, y2))
+
+    left = int(image_cx - size_faceROI / 2)
+    top = int(image_cy -size_faceROI / 2 + 33)
+    right = left + size_faceROI
+    bottom = top + size_faceROI
+
+    return (left, top, right, bottom), normalized_image2, face_points1
 
 def process(image, is_show_image, draw_pattern):
     out_image = image.copy()
