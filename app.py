@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import cv2
+import math
 import numpy as np
 import av
 import mediapipe as mp
@@ -57,9 +58,9 @@ def faceROI_extraction(image, face_points0):
 
 
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
-    eye_distance = np.sqrt(eye_distance2)
+    eye_distance = math.sqrt(eye_distance2)
     
-    eye_angle = np.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+    eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
 
     target_eye_distance = 55
 
