@@ -109,6 +109,7 @@ def process(image, is_show_image, draw_pattern):
     ) as face_mesh:
 
         results = face_mesh.process(image)
+        (image_height, image_width) = image.shape[:2]
 
         points = []
         for p in results.multi_face_landmarks[0].landmark:
@@ -121,8 +122,6 @@ def process(image, is_show_image, draw_pattern):
         rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
         faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
        
-        (image_height, image_width) = image.shape[:2]
-
         black_image = np.zeros((image_height, image_width, 3), np.uint8)
         white_image = black_image + 200
 
@@ -178,7 +177,7 @@ if video_data:
         if not ret:
             break
 
-        out_image = process(frame, True, "A")
+        out_image = process(frame, True, "B")
 
 #        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ##<< Generates a grayscale (thus only one 2d-array)
         out_mp4.write(out_image)
