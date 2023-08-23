@@ -68,6 +68,13 @@ def faceROI_extraction(image, face_points0):
     cx = (left_eye_x + right_eye_x) / 2
     cy = (left_eye_y + right_eye_y) / 2
 
+    mat_rot = cv2.getRotationMatrix2D((cx, cy), eye_angle, scale)
+    tx = image_cx - cx
+    ty = image_cy - cy
+    mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
+
+    image_width_ = int(image_width)
+    image_height_ = int(image_height)
 
 
 def process(image, is_show_image, draw_pattern):
