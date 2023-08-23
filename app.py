@@ -111,18 +111,7 @@ def process(image, is_show_image, draw_pattern):
 
         results = face_mesh.process(image)
         (image_height, image_width) = image.shape[:2]
-
-        points = []
-        for p in results.multi_face_landmarks[0].landmark:
-            x = func(p.x, image_width)
-            y = func(p.y, image_height)
-            z = p.z
-
-            points.append((x, y, z))
-
-        rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
-        faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
-       
+      
         black_image = np.zeros((image_height, image_width, 3), np.uint8)
         white_image = black_image + 200
 
@@ -139,6 +128,17 @@ def process(image, is_show_image, draw_pattern):
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
         elif draw_pattern == "B":
+            points = []
+            for p in results.multi_face_landmarks[0].landmark:
+                x = func(p.x, image_width)
+                y = func(p.y, image_height)
+                z = p.z
+    
+                points.append((x, y, z))
+    
+            rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
+            faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
+
             out_image[0: size_faceROI, 0: size_faceROI] = faceROI
             
 
