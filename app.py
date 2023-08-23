@@ -72,7 +72,7 @@ def faceROI_extraction(image, face_points0):
     mat_rot = cv2.getRotationMatrix2D((cx, cy), eye_angle, scale)
     tx = image_cx - cx
     ty = image_cy - cy
-    mat_tra = np.float32([[1, 0, tx],[0, 1, ty]])
+    mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
 
     image_width_ = int(image_width)
     image_height_ = int(image_height)
@@ -178,7 +178,7 @@ if video_data:
         if not ret:
             break
 
-        out_image = process(frame, True, "B")
+        out_image = process(frame, True, "A")
 
 #        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ##<< Generates a grayscale (thus only one 2d-array)
         out_mp4.write(out_image)
