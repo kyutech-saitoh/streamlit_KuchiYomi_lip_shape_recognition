@@ -68,35 +68,7 @@ def faceROI_extraction(image, face_points0):
     cx = (left_eye_x + right_eye_x) / 2
     cy = (left_eye_y + right_eye_y) / 2
 
-    mat_rot = cv2.getRotationMatrix2D((cx, cy), eye_angle, scale)
-    tx = image_cx - cx
-    ty = image_cy - cy
-    mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
 
-    image_width_ = int(image_width)
-    image_height_ = int(image_height)
-
-    normalized_image1 = cv2.warpAffine(image, mat_rot, (image_width_, image_height_))
-    normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (image_width_, image_height_))
-
-    face_points1 = []
-    for p0 in face_points0:
-        x0 = p0[0]
-        y0 = p0[1]
-        z0 = p0[2]
-        x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
-        y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
-        x2 = x1 + mat_tra[0][2]
-        y2 = y1 + mat_tra[1][2]
-
-        face_points1.append((x2, y2, z0))
-
-    left = int(image_cx - size_faceROI / 2)
-    top = int(image_cy -size_faceROI / 2 + 33)
-    right = left + size_faceROI
-    bottom = top + size_faceROI
-
-    return (left, top, right, bottom), normalized_image2, face_points1
 
 def process(image, is_show_image, draw_pattern):
     out_image = image.copy()
@@ -137,6 +109,7 @@ def process(image, is_show_image, draw_pattern):
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                         points.append((x, y))
 
+                    faceROI_extraction(image, points)
                     #rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
                     #faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
                         
