@@ -137,7 +137,7 @@ def process(image, is_show_image, draw_pattern):
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                         points.append((x, y))
 
-                    rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
+                    #rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
                     #faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
                         
                     #out_image[0: size_faceROI, 0: size_faceROI] = faceROI
