@@ -49,7 +49,6 @@ def faceROI_extraction(image, face_points0):
     for idx in landmark_right_eye_points:
         x = face_points0[idx][0]
         y = face_points0[idx][1]
-
         right_eye_x += x
         right_eye_y += y
 
@@ -129,17 +128,18 @@ def process(image, is_show_image, draw_pattern):
 
         elif draw_pattern == "B":
             points = []
-            for p in results.multi_face_landmarks[0].landmark:
-                x = func(p.x, image_width)
-                y = func(p.y, image_height)
-                z = p.z
+            if results.multi_face_landmarks:
+                for face in results.multi_face_landmarks:
+                   for landmark in face.landmark:
+                        x = func(landmark.x, image_width)
+                        y = func(landmark.y, image_height)
+            
+                        points.append((x, y))
     
-                points.append((x, y, z))
-    
-            rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
-            faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
+                    rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
+                    faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
 
-            out_image[0: size_faceROI, 0: size_faceROI] = faceROI
+                    out_image[0: size_faceROI, 0: size_faceROI] = faceROI
             
 
     return cv2.flip(out_image, 1)
