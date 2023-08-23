@@ -140,7 +140,7 @@ def process(image, is_show_image, draw_pattern):
                     faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
                     faceROI = cv2.resize(faceROI, (100, 100))
 
-                    out_image[image_width-100-1: image_width-1, 0: 100] = faceROI
+                    out_image[0: 100, 0: 100] = faceROI
 
     return cv2.flip(out_image, 1)
 
