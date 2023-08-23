@@ -120,7 +120,7 @@ def process(image, is_show_image, draw_pattern):
         if draw_pattern == "A":
             if results.multi_face_landmarks:
                 for face in results.multi_face_landmarks:
-                   for landmark in face.landmark:
+                    for landmark in face.landmark:
                         x = func(landmark.x, image_width)
                         y = func(landmark.y, image_height)
                         cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
@@ -129,27 +129,13 @@ def process(image, is_show_image, draw_pattern):
         elif draw_pattern == "B":
             if results.multi_face_landmarks:
                 for face in results.multi_face_landmarks:
-                   for landmark in face.landmark:
+                    points = []
+                    for landmark in face.landmark:
                         x = func(landmark.x, image_width)
                         y = func(landmark.y, image_height)
                         cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
-                        """
-                        if results.multi_face_landmarks:
-                        for face in results.multi_face_landmarks:
-                        points = []
-                        for landmark in face.landmark:
-                        x = func(landmark.x, image_width)
-                        y = func(landmark.y, image_height)
-                        
-                        #                        points.append((x, y))
-                        """
-                        """
-                        rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
-                        faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
-                        
-                        out_image[0: size_faceROI, 0: size_faceROI] = faceROI
-                        """            
+                        points.append((x, y))
 
     return cv2.flip(out_image, 1)
 
