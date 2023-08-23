@@ -137,6 +137,8 @@ def process(image, is_show_image, draw_pattern):
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                         points.append((x, y))
 
+                    rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
+
     return cv2.flip(out_image, 1)
 
 # func to save BytesIO on a drive
