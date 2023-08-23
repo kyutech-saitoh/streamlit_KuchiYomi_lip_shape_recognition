@@ -134,7 +134,7 @@ def process(image, is_show_image, draw_pattern):
                         x = func(landmark.x, image_width)
                         y = func(landmark.y, image_height)
 
-                        points.append((x, y))
+#                        points.append((x, y))
 
                     """
                     rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
