@@ -299,7 +299,10 @@ class VideoProcessor:
         # LFROI extraction
         LFROI_cv = LFROI_extraction(image_cv)
         image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
-        
+
+        LFROI_array = cv2pil(LFROI_cv)
+        crop_image_pil = preprocess(LFROI_array, transform)
+
         image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
