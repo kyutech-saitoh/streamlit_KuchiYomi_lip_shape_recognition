@@ -67,6 +67,7 @@ def main():
         # predict
         predict = test(model, crop_image)
 
+        st.write(predict)
         st.write(idxtovowel[predict.item()])
 
 if __name__ == '__main__':
