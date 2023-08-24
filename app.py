@@ -334,23 +334,6 @@ def process(image, is_show_image, draw_pattern):
     return cv2.flip(out_image, 1)
 
 
-# data transform
-transform = transforms.Compose([
-    transforms.Resize((160, 160)),
-    transforms.ToTensor(),
-])
-
-# vowel dict
-idxtovowel = {0: '閉口', 1: 'あ', 2: 'い', 3: 'う', 4: 'え', 5: 'お'}
-# training model path
-model_path = 'model/model_mobilenetv2.pth'
-# load model
-model = torch.load(model_path)
-# load device : cpu
-device = torch.device("cpu")
-model.to(device)
-
-magrin = 5
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -367,7 +350,6 @@ class VideoProcessor:
         image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
-
 
 webrtc_ctx = webrtc_streamer(
     key="example",
