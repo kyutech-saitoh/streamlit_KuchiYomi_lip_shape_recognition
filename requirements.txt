@@ -3,3 +3,6 @@ streamlit_webrtc
 opencv-python-headless
 mediapipe
 ffmpeg-python
+
+torch
+torchvision
