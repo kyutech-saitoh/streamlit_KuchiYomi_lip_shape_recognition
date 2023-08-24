@@ -44,7 +44,7 @@ def main():
     # vowel dict
     idxtovowel = {0: '閉口', 1: 'あ', 2: 'い', 3: 'う', 4: 'え', 5: 'お'}
     # training model path
-    model_path = "model/model_mobilenetv2.pth"
+    model_path = 'model/model_mobilenetv2.pth'
     # load model
     model = torch.load(model_path)
     # load device : cpu
