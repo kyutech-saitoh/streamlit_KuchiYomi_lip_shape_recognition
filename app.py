@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 import torch
 from torchvision import transforms
+import matplotlib
 
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
@@ -19,7 +20,14 @@ def preprocess(image_path, transform):
     
     return image
 
-
+def make_graph(values):
+    Y = np.arange(6)
+    X = values
+    fig, ax = plt.subplots()
+    # 横棒グラフ
+    ax.barh(Y, X)
+    st.pyplot(fig)
+    
 def test(model, crop_image):
 
     # モデルを評価モードにする
@@ -29,14 +37,14 @@ def test(model, crop_image):
         # 予測
         outputs = model(crop_image)
 
+        # obtain first six classes
         outputs6 = outputs[0][0:5]
         total = sum(outputs6)
         ave = outputs6 / total
-        st.write(outputs6)
-        st.write(total)
         st.write(ave)
-        st.write(outputs[0][0:5])
 
+        make_graph(ave)
+        
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
 
