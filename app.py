@@ -10,6 +10,7 @@ import subprocess
 import torch
 from torchvision import transforms
 
+import random
 
 # left eye contour
 landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 144, 145, 153, 154, 155]
@@ -201,7 +202,14 @@ def prediction(model, crop_image):
         probabilities6 = probabilities[0:6]
         #st.write(probabilities6)
         #print(probabilities6)
-        
+
+        probabilities6[0] = random.random()
+        probabilities6[1] = random.random()
+        probabilities6[2] = random.random()
+        probabilities6[3] = random.random()
+        probabilities6[4] = random.random()
+        probabilities6[5] = random.random()
+
         graph_image = make_graph_image(probabilities6)
         
         # 予測結果をクラス番号に変換
