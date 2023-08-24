@@ -201,7 +201,9 @@ def make_graph(values):
 def make_graph_image(values):
     graph_image = np.zeros((120, 120, 3), np.uint8)
 
+    fontface = cv2.FONT_HERSHEY_SIMPLEX
     label = ["N", "a", "i", "u", "e", "o"]
+
     x0 = 10
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
@@ -209,7 +211,10 @@ def make_graph_image(values):
         y1 = (idx + 1) * 20
 
         cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
-        cv2.putText(graph_image, label[idx], (0, y1), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255))
+
+        (w, h), baseline = cv2.getTextSize(label[idx], fontface, fontscale)
+        x = int((10 - w) / 2)
+        cv2.putText(graph_image, label[idx], (x, y1), fontface, 1.0, (255, 255, 255))
         
     return graph_image
     
