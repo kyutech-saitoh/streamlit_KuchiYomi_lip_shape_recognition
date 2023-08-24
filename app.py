@@ -1,6 +1,7 @@
 import streamlit as st
-import torch
+import numpy as np
 from PIL import Image
+import torch
 from torchvision import transforms
 
 st.title("Streamlit App: Mouth shape recognition")
