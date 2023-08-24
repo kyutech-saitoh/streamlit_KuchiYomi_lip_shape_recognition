@@ -381,6 +381,7 @@ class VideoProcessor:
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+120, image_width-1-120-magrin:image_width-1-magrin] = graph_image_cv
+        st.write(predict)
 
         image_cv = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
         #image_array = np.array(image_cv)
