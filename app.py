@@ -257,15 +257,11 @@ def main():
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
-        image_cv[0: 120, image_height-1-120: image_height-1] = graph_image_cv
+        image_cv[10:130, image_width-1-120:image_width-1] = graph_image_cv
 
         image_cv = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
         image_array = np.array(image_cv)
-        st.image(image_array, caption='uploaded image', use_column_width=None)
-
-        graph_image = Image.open(temp_graph_file)
-        graph_image_array = np.array(graph_image)
-        st.image(graph_image_array, caption='graph', width=400, use_column_width=None)
+        st.image(image_array, caption="image", use_column_width=None)
         
         st.write(predict)
         st.write(predict.item())
