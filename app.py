@@ -208,21 +208,21 @@ def make_graph_image(values):
 
     max_idx = np.argmax(values)
 
-    x0 = 10
+    x0 = 20
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
         y0 = idx * 20
         y1 = (idx + 1) * 20
         if idx == max_idx:
             cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 0, 255), -1)
-            cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 200, 2255), -1)
+            cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 200, 255), -1)
         else:
             cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
             cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 255, 200), -1)
 
         (w, h), baseline = cv2.getTextSize(label[idx], fontface, fontscale, thickness)
-        x = int((10 - w) / 2)
-        cv2.putText(graph_image, label[idx], (x, y1), fontface, fontscale, (255, 255, 255), thickness)
+        x = int((x0 - w) / 2)
+        cv2.putText(graph_image, label[idx], (x, y1-3), fontface, fontscale, (255, 255, 255), thickness)
         
     return graph_image
     
