@@ -107,6 +107,8 @@ def LFROI_extraction(image, face_points0):
     return (left, top, right, bottom), normalized_image2, face_points1
 
 def preprocess(image):
+    out_image = image.copy()
+
     black_image = np.zeros((size_LFROI, size_LFROI, 3), np.uint8)
     white_image = black_image + 200
 
