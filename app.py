@@ -28,6 +28,7 @@ def test(model, crop_image):
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
+        st.write(outputs)
 
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
