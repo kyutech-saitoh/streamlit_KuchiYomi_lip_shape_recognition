@@ -365,8 +365,6 @@ class VideoProcessor:
         image_cv = frame.to_ndarray(format="bgr24")
 
         image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
-
-
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
 
