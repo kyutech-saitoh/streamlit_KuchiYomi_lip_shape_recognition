@@ -296,8 +296,12 @@ class VideoProcessor:
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
 
+        # LFROI extraction
+        LFROI_cv = LFROI_extraction(image_cv)
+        image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
+        
         image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
-
+        
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
 
 
