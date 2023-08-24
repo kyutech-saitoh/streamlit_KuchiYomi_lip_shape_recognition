@@ -23,11 +23,11 @@ def preprocess(image_path, transform):
 def make_graph(values):
     Y = np.arange(6)
     X = values
-    arr = np.random.normal(1, 1, size=100)
+    arr = np.random.normal(1, 1, size=6)
     fig, ax = plt.subplots()
     # 横棒グラフ
     #ax.barh(Y, X)
-    ax.hist(arr, bins=20)
+    ax.bar(Y, arr)
     st.pyplot(fig)
     
 def test(model, crop_image):
