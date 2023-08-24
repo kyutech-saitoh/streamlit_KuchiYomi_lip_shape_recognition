@@ -68,7 +68,7 @@ def func(value1, value2):
     return int(value1 * value2)
 
 
-def LFROI_extraction(image, face_points0):
+def LFROI_extraction_sub(image, face_points0):
     image_height, image_width, channels = image.shape[:3]
 
     image_cx = image_width / 2
@@ -125,7 +125,8 @@ def LFROI_extraction(image, face_points0):
 
     return (left, top, right, bottom), normalized_image2, face_points1
 
-def preprocess(image):
+
+def LFROI_extraction(image):
     out_image = image.copy()
 
     black_image = np.zeros((size_LFROI, size_LFROI, 3), np.uint8)
@@ -151,51 +152,20 @@ def preprocess(image):
                     cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
 
-                rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction(image, points)
+                rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image_LFROI[rect_LFROI[1]: rect_LFROI[3], rect_LFROI[0]: rect_LFROI[2]]
 
             return LFROI
 
     return white_image
-    
-def preprocess_(image_path, transform):
-    #########################################
-    # Plese write extracting lipROI process #
-    #########################################
-    
-    image = Image.open(image_path)
+
+
+def preprocess(image, transform):   
     image = transform(image)  # PIL
     C, H, W = image.shape
     image = image.reshape(1, C, H, W)
     
     return image
-
-def preprocess2(image, transform):
-    #########################################
-    # Plese write extracting lipROI process #
-    #########################################
-    
-    image = transform(image)  # PIL
-    C, H, W = image.shape
-    image = image.reshape(1, C, H, W)
-    
-    return image
-
-
-def make_graph(values):
-    Y = np.arange(6)
-    X = values
-    sm = matplotlib.cm.ScalarMappable(cmap='jet')
-    fig, ax = plt.subplots()
-
-    # 横棒グラフ
-    ax.barh(Y, X, color=sm.to_rgba(X))
-    ax.set_xlim(0, 1)
-    ax.set_yticks([0, 1, 2, 3, 4, 5])
-    ax.set_yticklabels(['閉', 'あ', 'い', 'う', 'え', 'お'] , size=14)
-
-    #st.pyplot(fig)
-    fig.savefig(temp_graph_file)
 
 
 def make_graph_image(values):
@@ -225,9 +195,9 @@ def make_graph_image(values):
         cv2.putText(graph_image, label[idx], (x, y1-3), fontface, fontscale, (255, 255, 255), thickness)
         
     return graph_image
-    
-def test(model, crop_image):
 
+
+def prediction(model, crop_image):
     # モデルを評価モードにする
     model.eval()
 
@@ -278,18 +248,18 @@ def main():
 
         image_height, image_width, channels = image_cv.shape[:3]
 
-        # preprocess
-        LFROI_cv = preprocess(image_cv)
+        # LFROI extraction
+        LFROI_cv = LFROI_extraction(image_cv)
         image_cv[0: size_LFROI, 0: size_LFROI] = LFROI_cv
 
         LFROI_array = cv2pil(LFROI_cv)
-#        st.image(LFROI_array, caption='LFROI', width=200, use_column_width=None)
-        crop_image_pil = preprocess2(LFROI_array, transform)
+        crop_image_pil = preprocess(LFROI_array, transform)
 
         # predict
-        predict, graph_image_cv = test(model, crop_image_pil)
+        predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[0: 120, image_height-1-120: image_height-1] = graph_image_cv
 
+        image_cv = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
         image_array = np.array(image_cv)
         st.image(image_array, caption='uploaded image', use_column_width=None)
 
