@@ -33,7 +33,7 @@ def make_graph(values):
     sm = matplotlib.cm.ScalarMappable(cmap='jet')
     fig, ax = plt.subplots()
     # 横棒グラフ
-    ax.barh(Y, X, color=sm.to_rgba(Y))
+    ax.barh(Y, X, color=sm.to_rgba(X))
 
     st.pyplot(fig)
     
