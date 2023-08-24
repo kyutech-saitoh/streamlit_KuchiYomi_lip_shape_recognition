@@ -201,18 +201,24 @@ def make_graph(values):
 def make_graph_image(values):
     graph_image = np.zeros((120, 120, 3), np.uint8)
 
-    fontface = cv2.FONT_HERSHEY_SIMPLEX
+    fontface = cv2.FONT_HERSHEY_PLAIN
     label = ["N", "a", "i", "u", "e", "o"]
     fontscale = 1.0
     thickness = 1
+
+    _, predicted_idx = torch.max(values, 1)
 
     x0 = 10
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
         y0 = idx * 20
         y1 = (idx + 1) * 20
-
-        cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
+        if idx == predicted_idx:
+            cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 0, 255), -1)
+            cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 200, 2255), -1)
+        else:
+            cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
+            cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 255, 200), -1)
 
         (w, h), baseline = cv2.getTextSize(label[idx], fontface, fontscale, thickness)
         x = int((10 - w) / 2)
