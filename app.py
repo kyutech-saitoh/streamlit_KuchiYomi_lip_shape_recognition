@@ -20,6 +20,8 @@ landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 3
 
 size_LFROI = 200
 
+temp_graph_file = "./temp_file.png"
+
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
@@ -192,8 +194,9 @@ def make_graph(values):
     ax.set_yticks([0, 1, 2, 3, 4, 5])
     ax.set_yticklabels(['閉', 'あ', 'い', 'う', 'え', 'お'] , size=14)
 
-    st.pyplot(fig)
-    
+    #st.pyplot(fig)
+    fig.savefig(temp_graph_file)
+
 def test(model, crop_image):
 
     # モデルを評価モードにする
@@ -238,21 +241,27 @@ def main():
     image_data = st.file_uploader("Upload file", ['jpg','png'])
 
     input_image = None
-    
+
+    col1, col2 = st.beta_columns(2)
+
     if image_data is not None:
         image = Image.open(image_data)
         img_array = np.array(image)
-        st.image(img_array, caption='uploaded image', use_column_width = None)
+        st.image(img_array, caption='uploaded image', use_column_width=None)
         input_image = pil2cv(image) 
 
         # preprocess
         LFROI = preprocess(input_image)
         LFROI_array = cv2pil(LFROI)
-        st.image(LFROI_array, caption='LFROI', use_column_width = None)
+        st.image(LFROI_array, caption='LFROI', use_column_width=True)
         crop_image = preprocess2(LFROI_array, transform)
         # predict
         predict = test(model, crop_image)
 
+        graph_image = Image.open(temp_graph_file)
+        graph_image_array = np.array(graph_image)
+        st.image(graph_image_array, caption='graph', use_column_width=True)
+        
         st.write(predict)
         st.write(predict.item())
         st.write(idxtovowel[predict.item()])
