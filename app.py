@@ -212,7 +212,7 @@ def make_graph_image(values):
 
         cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
 
-        (w, h), baseline = cv2.getTextSize(label[idx], fontface, fontscale)
+        (w, h), baseline = cv2.getTextSize(label[idx], fontface, 1.0)
         x = int((10 - w) / 2)
         cv2.putText(graph_image, label[idx], (x, y1), fontface, 1.0, (255, 255, 255))
         
