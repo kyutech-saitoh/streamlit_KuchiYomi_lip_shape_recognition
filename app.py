@@ -52,14 +52,11 @@ def test(model, crop_image):
         outputs = model(crop_image)
         probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
-        st.write(probabilities)
+        #st.write(probabilities)
 
         # obtain first six classes
         probabilities6 = probabilities[0:6]
         st.write(probabilities6)
-        total = sum(probabilities6)
-        ave = probabilities6 / total
-        st.write(ave)
 
         make_graph(probabilities6)
         
