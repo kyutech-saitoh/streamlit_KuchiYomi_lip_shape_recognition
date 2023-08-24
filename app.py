@@ -28,6 +28,13 @@ def test(model, crop_image):
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
+
+        outputs6 = outputs[0][0:5]
+        total = sum(outputs6)
+        ave = outputs6 / total
+        st.write(outputs6)
+        st.write(total)
+        st.write(ave)
         st.write(outputs[0][0:5])
 
         # 予測結果をクラス番号に変換
