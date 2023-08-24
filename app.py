@@ -258,7 +258,7 @@ def main():
 
         graph_image = Image.open(temp_graph_file)
         graph_image_array = np.array(graph_image)
-        st.image(graph_image_array, caption='graph', width=100, use_column_width=None)
+        st.image(graph_image_array, caption='graph', width=400, use_column_width=None)
         
         st.write(predict)
         st.write(predict.item())
