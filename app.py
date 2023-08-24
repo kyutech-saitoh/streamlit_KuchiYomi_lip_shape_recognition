@@ -162,7 +162,7 @@ def preprocess(image, transform):
 
 
 def make_graph_image(values):
-    graph_image = np.zeros((120, 120, 3), np.uint8)
+    graph_image = np.zeros((200, 120, 3), np.uint8)
 
     fontface = cv2.FONT_HERSHEY_PLAIN
     label = ["N", "a", "i", "u", "e", "o"]
@@ -171,7 +171,7 @@ def make_graph_image(values):
 
     max_idx = np.argmax(values)
 
-    x0 = 20
+    x0 = 100
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
         y0 = idx * 20
@@ -196,19 +196,8 @@ def prediction(model, crop_image):
         outputs = model(crop_image)
         probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
-        #st.write(probabilities)
-
         # obtain first six classes
         probabilities6 = probabilities[0:6]
-        #st.write(probabilities6)
-        #print(probabilities6)
-
-        #probabilities6[0] = random.random()
-        #probabilities6[1] = random.random()
-        #probabilities6[2] = random.random()
-        #probabilities6[3] = random.random()
-        #probabilities6[4] = random.random()
-        #probabilities6[5] = random.random()
 
         graph_image = make_graph_image(probabilities6)
         
