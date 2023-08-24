@@ -309,7 +309,7 @@ class VideoProcessor:
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+120, image_width-1-120-magrin:image_width-1-magrin] = graph_image_cv
         
-        image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
+        #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
 
