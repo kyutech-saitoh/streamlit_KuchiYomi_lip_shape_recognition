@@ -56,7 +56,7 @@ def main():
     input_image = None
     
     if image_data is not None:
-        image = Image.open(uploaded_file)
+        image = Image.open(image_data)
         img_array = np.array(image)
         st.image(img_array, caption = 'uploaded image', use_column_width = None)
         #input_image = pil2cv(image) 
