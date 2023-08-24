@@ -55,12 +55,13 @@ def test(model, crop_image):
         st.write(probabilities)
 
         # obtain first six classes
-        outputs6 = outputs[0][0:6]
-        total = sum(outputs6)
-        ave = outputs6 / total
+        probabilities6 = probabilities[0:6]
+        st.write(probabilities6)
+        total = sum(probabilities6)
+        ave = probabilities6 / total
         st.write(ave)
 
-        make_graph(ave)
+        make_graph(probabilities6)
         
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
