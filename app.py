@@ -189,6 +189,29 @@ def make_graph_image(values):
     return graph_image
 
 
+def prediction(model, crop_image):
+    # モデルを評価モードにする
+    model.eval()
+
+    with torch.no_grad():
+        # 予測
+        outputs = model(crop_image)
+        probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
+
+        #st.write(probabilities)
+
+        # obtain first six classes
+        probabilities6 = probabilities[0:6]
+        #st.write(probabilities6)
+
+        graph_image = make_graph_image(probabilities6)
+        
+        # 予測結果をクラス番号に変換
+        _, predicted = torch.max(outputs, 1)
+
+    return predicted, graph_image
+
+
 def process(image, is_show_image, draw_pattern):
     out_image = image.copy()
 
@@ -239,6 +262,25 @@ def process(image, is_show_image, draw_pattern):
                     cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
     return cv2.flip(out_image, 1)
+
+
+# data transform
+transform = transforms.Compose([
+    transforms.Resize((160, 160)),
+    transforms.ToTensor(),
+])
+
+# vowel dict
+idxtovowel = {0: '閉口', 1: 'あ', 2: 'い', 3: 'う', 4: 'え', 5: 'お'}
+# training model path
+model_path = 'model/model_mobilenetv2.pth'
+# load model
+model = torch.load(model_path)
+# load device : cpu
+device = torch.device("cpu")
+model.to(device)
+
+magrin = 5
 
 
 RTC_CONFIGURATION = RTCConfiguration(
