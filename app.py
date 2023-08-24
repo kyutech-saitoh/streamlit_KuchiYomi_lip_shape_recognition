@@ -206,14 +206,14 @@ def make_graph_image(values):
     fontscale = 1.0
     thickness = 1
 
-    _, predicted_idx = torch.max(values, 1)
+    max_idx = np.argmax(values)
 
     x0 = 10
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
         y0 = idx * 20
         y1 = (idx + 1) * 20
-        if idx == predicted_idx:
+        if idx == max_idx:
             cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 0, 255), -1)
             cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 200, 2255), -1)
         else:
