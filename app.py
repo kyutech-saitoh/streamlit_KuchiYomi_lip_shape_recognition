@@ -20,7 +20,7 @@ landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 3
 size_LFROI = 200
 
 
-st.title("Streamlit App: Face motion by MediaPipe")
+st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 
 def pil2cv(image):
@@ -203,12 +203,12 @@ def prediction(model, crop_image):
         #st.write(probabilities6)
         #print(probabilities6)
 
-        probabilities6[0] = random.random()
-        probabilities6[1] = random.random()
-        probabilities6[2] = random.random()
-        probabilities6[3] = random.random()
-        probabilities6[4] = random.random()
-        probabilities6[5] = random.random()
+        #probabilities6[0] = random.random()
+        #probabilities6[1] = random.random()
+        #probabilities6[2] = random.random()
+        #probabilities6[3] = random.random()
+        #probabilities6[4] = random.random()
+        #probabilities6[5] = random.random()
 
         graph_image = make_graph_image(probabilities6)
         
