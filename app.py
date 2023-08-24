@@ -237,6 +237,8 @@ def main():
     device = torch.device("cpu")
     model.to(device)
 
+    magrin = 5
+    
     image_path = st.file_uploader("Upload file", ['jpg', 'png'])
 
     input_image = None
@@ -250,14 +252,14 @@ def main():
 
         # LFROI extraction
         LFROI_cv = LFROI_extraction(image_cv)
-        image_cv[0: size_LFROI, 0: size_LFROI] = LFROI_cv
+        image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
         LFROI_array = cv2pil(LFROI_cv)
         crop_image_pil = preprocess(LFROI_array, transform)
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
-        image_cv[10:130, image_width-1-120:image_width-1] = graph_image_cv
+        image_cv[magrin:magrin+120, image_width-1-120-magrin:image_width-1-magrin] = graph_image_cv
 
         image_cv = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
         image_array = np.array(image_cv)
