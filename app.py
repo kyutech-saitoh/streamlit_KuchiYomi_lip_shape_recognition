@@ -40,7 +40,7 @@ def test(model, crop_image):
         outputs = model(crop_image)
 
         # obtain first six classes
-        outputs6 = outputs[0][0:5]
+        outputs6 = outputs[0][0:6]
         total = sum(outputs6)
         ave = outputs6 / total
         st.write(ave)
