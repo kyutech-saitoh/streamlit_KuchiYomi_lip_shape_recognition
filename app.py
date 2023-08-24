@@ -6,11 +6,6 @@ from torchvision import transforms
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 
-parser = argparse.ArgumentParser(description='lipreading')
-parser.add_argument('arg1', help='INPUT IMAGE PATH')
-args = parser.parse_args()
-
-
 def preprocess(image_path, transform):
     #########################################
     # Plese write extracting lipROI process #
