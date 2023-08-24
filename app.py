@@ -202,8 +202,8 @@ def prediction(model, crop_image):
 
         # obtain first six classes
         probabilities6 = probabilities[0:6]
-        #st.write(probabilities6)
-        print(probabilities6)
+        st.write(probabilities6)
+        #print(probabilities6)
         
         graph_image = make_graph_image(probabilities6)
         
