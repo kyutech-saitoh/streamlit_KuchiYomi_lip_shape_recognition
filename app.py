@@ -50,7 +50,9 @@ def test(model, crop_image):
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
-        #st.write(outputs)
+        probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
+
+        st.write(probabilities)
 
         # obtain first six classes
         outputs6 = outputs[0][0:6]
