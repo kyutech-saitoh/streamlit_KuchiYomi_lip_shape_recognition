@@ -273,7 +273,7 @@ def main():
 
         # predict
         predict, graph_image_cv = test(model, crop_image_pil)
-        image_cv[0: 120, image_height-1-100: image_height-1] = graph_image_cv
+        image_cv[0: 120, image_height-1-120: image_height-1] = graph_image_cv
 
         image_array = np.array(image_cv)
         st.image(image_array, caption='uploaded image', use_column_width=None)
