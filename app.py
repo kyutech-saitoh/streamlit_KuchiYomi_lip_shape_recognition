@@ -197,6 +197,20 @@ def make_graph(values):
     #st.pyplot(fig)
     fig.savefig(temp_graph_file)
 
+
+def make_graph_image(values, size):
+    graph_image = np.zeros((120, 100, 3), np.uint8)
+
+    x0 = 10
+    for idx, v in enumerate(values):
+        x1 = int(v * 100)
+        y0 = idx * 10
+        y1 = (idx + 1) * 10
+
+        cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
+        
+    return graph_image
+    
 def test(model, crop_image):
 
     # モデルを評価モードにする
@@ -213,12 +227,12 @@ def test(model, crop_image):
         probabilities6 = probabilities[0:6]
         #st.write(probabilities6)
 
-        make_graph(probabilities6)
+        graph_image = make_graph_image(probabilities6)
         
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
 
-    return predicted
+    return predicted, graph_image
 
 
 def main():
@@ -256,7 +270,8 @@ def main():
         crop_image_pil = preprocess2(LFROI_array, transform)
 
         # predict
-        predict = test(model, crop_image_pil)
+        predict, graph_image_cv = test(model, crop_image_pil)
+        image_cv[0: 120, image_height-1-100: image_height-1] = graph_image_cv
 
         image_array = np.array(image_cv)
         st.image(image_array, caption='uploaded image', use_column_width=None)
