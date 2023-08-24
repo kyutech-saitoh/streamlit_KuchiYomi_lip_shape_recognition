@@ -209,7 +209,7 @@ def make_graph_image(values):
         y1 = (idx + 1) * 20
 
         cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
-        cv2.putText(graph_image, label[idx], (x0, y0), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255))
+        cv2.putText(graph_image, label[idx], (0, y1), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255))
         
     return graph_image
     
