@@ -199,13 +199,13 @@ def make_graph(values):
 
 
 def make_graph_image(values):
-    graph_image = np.zeros((120, 100, 3), np.uint8)
+    graph_image = np.zeros((120, 120, 3), np.uint8)
 
     x0 = 10
     for idx, v in enumerate(values):
-        x1 = int(v * 100)
-        y0 = idx * 10
-        y1 = (idx + 1) * 10
+        x1 = x0 + int(v * 100)
+        y0 = idx * 20
+        y1 = (idx + 1) * 20
 
         cv2.rectangle(graph_image, (x0, y0), (x1, y1), (0, 255, 0), -1)
         
