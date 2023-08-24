@@ -261,6 +261,8 @@ def main():
         image_array = np.array(image_pil)
         image_cv = pil2cv(image_pil) 
 
+        image_height, image_width, channels = image_cv.shape[:3]
+
         # preprocess
         LFROI_cv = preprocess(image_cv)
         image_cv[0: size_LFROI, 0: size_LFROI] = LFROI_cv
