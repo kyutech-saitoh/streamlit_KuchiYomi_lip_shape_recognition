@@ -27,7 +27,7 @@ def make_graph(values):
     fig, ax = plt.subplots()
     # 横棒グラフ
     #ax.barh(Y, X)
-    ax.bar(Y, arr)
+    ax.bar(Y, X)
     st.pyplot(fig)
     
 def test(model, crop_image):
