@@ -6,3 +6,5 @@ ffmpeg-python
 
 torch
 torchvision
+
+japanize_matplotlib
