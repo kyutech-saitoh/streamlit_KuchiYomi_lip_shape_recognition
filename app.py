@@ -250,9 +250,12 @@ def main():
 
         # preprocess
         LFROI = preprocess(input_image)
+        input_image[0: size_LFROI, 0: size_LFROI] = LFROI
+
         LFROI_array = cv2pil(LFROI)
-        st.image(LFROI_array, caption='LFROI', width=200, use_column_width=None)
+#        st.image(LFROI_array, caption='LFROI', width=200, use_column_width=None)
         crop_image = preprocess2(LFROI_array, transform)
+
         # predict
         predict = test(model, crop_image)
 
