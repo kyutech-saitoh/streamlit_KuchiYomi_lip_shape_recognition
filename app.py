@@ -1,12 +1,59 @@
 import streamlit as st
-import cv2
-import numpy as np
-import av
-import mediapipe as mp
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
+import av
+import numpy as np
+import cv2
+import math
+from PIL import Image
+import mediapipe as mp
+import subprocess
+import torch
+from torchvision import transforms
+
+
+# left eye contour
+landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 144, 145, 153, 154, 155]
+# right eye contour
+landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
+
+size_LFROI = 200
+
 
 st.title("Streamlit App: Face motion by MediaPipe")
 st.write("Kyutech, Saitoh-lab")
+
+def pil2cv(image):
+    ''' PIL型 -> OpenCV型 '''
+    new_image = np.array(image, dtype=np.uint8)
+    if new_image.ndim == 2:
+        # モノクロ
+        pass
+    elif new_image.shape[2] == 3:
+        # カラー
+        new_image = new_image[:, :, ::-1]
+    elif new_image.shape[2] == 4:
+        # 透過
+        new_image = new_image[:, :, [2, 1, 0, 3]]
+        
+    return new_image
+
+
+def cv2pil(image):
+    ''' OpenCV型 -> PIL型 '''
+    new_image = image.copy()
+    if new_image.ndim == 2:
+        # モノクロ
+        pass
+    elif new_image.shape[2] == 3:
+        # カラー
+        new_image = new_image[:, :, ::-1]
+    elif new_image.shape[2] == 4:
+        # 透過
+        new_image = new_image[:, :, [2, 1, 0, 3]]
+
+    new_image = Image.fromarray(new_image)
+
+    return new_image
 
 def func(value1, value2):
     return int(value1 * value2)
