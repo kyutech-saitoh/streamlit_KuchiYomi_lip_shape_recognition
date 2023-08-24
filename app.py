@@ -158,24 +158,13 @@ def process(image, is_show_image, draw_pattern):
         if is_show_image == False:
             out_image = white_image.copy()
 
-        if draw_pattern == "A":
-            if results.multi_face_landmarks:
-                for face in results.multi_face_landmarks:
-                   for landmark in face.landmark:               
-                        x = int(landmark.x * image_width)
-                        y = int(landmark.y * image_height)
-                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
-                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
-
-        elif draw_pattern == "B":
-            if results.multi_face_landmarks:
-                for face in results.multi_face_landmarks:
-                    out_image = drawB(out_image, face, image_width, image_height) 
-
-        elif draw_pattern == "C":
-            if results.multi_face_landmarks:
-                for face in results.multi_face_landmarks:
-                    out_image = drawC(out_image, face, image_width, image_height) 
+        if results.multi_face_landmarks:
+            for face in results.multi_face_landmarks:
+               for landmark in face.landmark:               
+                    x = int(landmark.x * image_width)
+                    y = int(landmark.y * image_height)
+                    cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
+                    cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
     return cv2.flip(out_image, 1)
 
