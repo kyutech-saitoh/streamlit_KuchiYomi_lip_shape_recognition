@@ -59,10 +59,10 @@ def main():
         image = Image.open(uploaded_file)
         img_array = np.array(image)
         st.image(img_array, caption = 'uploaded image', use_column_width = None)
-        input_image = pil2cv(image) 
+        #input_image = pil2cv(image) 
 
         # preprocess
-        crop_image = preprocess(image_path, transform)
+        crop_image = preprocess(image_data, transform)
         # predict
         predict = test(model, crop_image)
 
