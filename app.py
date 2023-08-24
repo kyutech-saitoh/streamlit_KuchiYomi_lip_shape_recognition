@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import torch
 from torchvision import transforms
-import matplotlib
+import matplotlib.pyplot as plt
 
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
