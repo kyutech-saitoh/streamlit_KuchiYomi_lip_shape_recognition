@@ -190,9 +190,6 @@ def make_graph_image(values):
 
 
 def prediction(model, crop_image):
-    # モデルを評価モードにする
-    model.eval()
-
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
@@ -202,7 +199,7 @@ def prediction(model, crop_image):
 
         # obtain first six classes
         probabilities6 = probabilities[0:6]
-        st.write(probabilities6)
+        #st.write(probabilities6)
         #print(probabilities6)
         
         graph_image = make_graph_image(probabilities6)
@@ -280,6 +277,9 @@ model = torch.load(model_path)
 # load device : cpu
 device = torch.device("cpu")
 model.to(device)
+
+# モデルを評価モードにする
+model.eval()
 
 magrin = 5
 
