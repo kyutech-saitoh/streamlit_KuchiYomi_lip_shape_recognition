@@ -242,12 +242,13 @@ def main():
     if image_data is not None:
         image = Image.open(image_data)
         img_array = np.array(image)
-        st.image(img_array, caption = 'uploaded image', use_column_width = None)
+        st.image(img_array, caption='uploaded image', use_column_width = None)
         input_image = pil2cv(image) 
 
         # preprocess
         LFROI = preprocess(input_image)
         LFROI_array = cv2pil(LFROI)
+        st.image(LFROI_array, caption='LFROI', use_column_width = None)
         crop_image = preprocess2(LFROI_array, transform)
         # predict
         predict = test(model, crop_image)
