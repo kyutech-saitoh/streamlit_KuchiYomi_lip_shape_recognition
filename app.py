@@ -1,114 +1,121 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
-import numpy as np
 import cv2
-import math
-from PIL import Image
+import numpy as np
+import av
 import mediapipe as mp
-import subprocess
-import torch
-from torchvision import transforms
+from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
-# left eye contour
-landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 144, 145, 153, 154, 155]
-# right eye contour
-landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
-
-size_LFROI = 200
-size_faceROI = 256
-
-st.title("Streamlit App: Mouth shape recognition")
+st.title("Streamlit App: Face motion by MediaPipe")
 st.write("Kyutech, Saitoh-lab")
-st.markdown("---")
-
-target_person_id = st.selectbox("Target person", ("P001", "P002", "P003"))
-st.write("You selected:", target_person_id)
-st.markdown("---")
-
-video_data = st.file_uploader("Upload file", ['mp4','mov', 'avi'])
-
-temp_file_to_save = './temp_file_1.mp4'
-temp_file_result  = './temp_file_2.mp4'
-
-# left eye contour
-landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 144, 145, 153, 154, 155]
-# right eye contour
-landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
-
-size_faceROI =  256
 
 def func(value1, value2):
     return int(value1 * value2)
 
-def faceROI_extraction(image, face_points0):
-    image_height, image_width, channels = image.shape[:3]
 
-    image_cx = image_width / 2
-    image_cy = image_height / 2
+def drawB(image, face, image_width, image_height):
+    left_eye_idxs = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 144, 145, 153, 154, 155, 133]
+    right_eye_idxs = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382, 362]
+    left_eyebrow_idxs = [55, 65, 52, 53, 46]
+    right_eyebrow_idxs = [285, 295, 282, 283, 276]
+    lip_idxs = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291, 375, 321, 405, 314, 17, 84, 181, 91, 146, 61]
 
-    left_eye_x = 0
-    left_eye_y = 0
-    for idx in landmark_left_eye_points:
-        x = face_points0[idx][0]
-        y = face_points0[idx][1]
-        left_eye_x += x
-        left_eye_y += y
+    for i in range(len(left_eye_idxs)-1):
+        idx1 = left_eye_idxs[i]
+        idx2 = left_eye_idxs[i+1]
+        x1 = func(face.landmark[idx1].x, image_width)
+        y1 = func(face.landmark[idx1].y, image_height)
+        x2 = func(face.landmark[idx2].x, image_width)
+        y2 = func(face.landmark[idx2].y, image_height)
 
-    left_eye_x = int(left_eye_x / len(landmark_left_eye_points))
-    left_eye_y = int(left_eye_y / len(landmark_left_eye_points))
+        cv2.line(image, pt1=(x1, y1), pt2=(x2, y2), color=(255, 0, 0), thickness=2)
+        
+    for i in range(len(right_eye_idxs)-1):
+        idx1 = right_eye_idxs[i]
+        idx2 = right_eye_idxs[i+1]
+        x1 = func(face.landmark[idx1].x, image_width)
+        y1 = func(face.landmark[idx1].y, image_height)
+        x2 = func(face.landmark[idx2].x, image_width)
+        y2 = func(face.landmark[idx2].y, image_height)
 
-    right_eye_x = 0
-    right_eye_y = 0
-    for idx in landmark_right_eye_points:
-        x = face_points0[idx][0]
-        y = face_points0[idx][1]
-        right_eye_x += x
-        right_eye_y += y
+        cv2.line(image, pt1=(x1, y1), pt2=(x2, y2), color=(0, 255, 0), thickness=2)
 
-    right_eye_x = int(right_eye_x / len(landmark_right_eye_points))
-    right_eye_y = int(right_eye_y / len(landmark_right_eye_points))
+    for i in range(len(left_eyebrow_idxs)-1):
+        idx1 = left_eyebrow_idxs[i]
+        idx2 = left_eyebrow_idxs[i+1]
+        x1 = func(face.landmark[idx1].x, image_width)
+        y1 = func(face.landmark[idx1].y, image_height)
+        x2 = func(face.landmark[idx2].x, image_width)
+        y2 = func(face.landmark[idx2].y, image_height)
 
+        cv2.line(image, pt1=(x1, y1), pt2=(x2, y2), color=(255, 0, 0), thickness=2)
 
-    eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
-    eye_distance = math.sqrt(eye_distance2)
+    for i in range(len(right_eyebrow_idxs)-1):
+        idx1 = right_eyebrow_idxs[i]
+        idx2 = right_eyebrow_idxs[i+1]
+        x1 = func(face.landmark[idx1].x, image_width)
+        y1 = func(face.landmark[idx1].y, image_height)
+        x2 = func(face.landmark[idx2].x, image_width)
+        y2 = func(face.landmark[idx2].y, image_height)
+
+        cv2.line(image, pt1=(x1, y1), pt2=(x2, y2), color=(0, 255, 0), thickness=2)
+
+    for i in range(len(lip_idxs)-1):
+        idx1 = lip_idxs[i]
+        idx2 = lip_idxs[i+1]
+        x1 = func(face.landmark[idx1].x, image_width)
+        y1 = func(face.landmark[idx1].y, image_height)
+        x2 = func(face.landmark[idx2].x, image_width)
+        y2 = func(face.landmark[idx2].y, image_height)
+
+        cv2.line(image, pt1=(x1, y1), pt2=(x2, y2), color=(0, 0, 255), thickness=2)
     
-    eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+    return image
+    
 
-    target_eye_distance = 55
+def drawC(image, face, image_width, image_height):
+    nosex = func(face.landmark[1].x, image_width)
+    nosey = func(face.landmark[1].y, image_height)
+    face_size = func(np.sqrt((face.landmark[234].x - face.landmark[454].x)**2 + (face.landmark[234].y - face.landmark[454].y)**2) / 2 * 1.2, image_width)
 
-    scale = target_eye_distance / eye_distance
+    eye_width1 = func(np.sqrt((face.landmark[133].x - face.landmark[33].x)**2 + (face.landmark[133].y - face.landmark[33].y)**2) * 2, image_width)
+    eye_height1 = func(np.sqrt((face.landmark[159].x - face.landmark[145].x)**2 + (face.landmark[159].y - face.landmark[145].y)**2) * 3, image_height)
+    eye_width2 = func(np.sqrt((face.landmark[362].x - face.landmark[263].x)**2 + (face.landmark[362].y - face.landmark[263].y)**2) * 2, image_width)
+    eye_height2 = func(np.sqrt((face.landmark[386].x - face.landmark[374].x)**2 + (face.landmark[386].y - face.landmark[374].y)**2) * 3, image_height)
+    eye_angle1 = np.arctan2(face.landmark[33].y - face.landmark[133].y, face.landmark[33].x - face.landmark[133].x) * 180 / np.pi
+    eye_angle2 = np.arctan2(face.landmark[263].y - face.landmark[362].y, face.landmark[263].x - face.landmark[362].x) * 180 / np.pi
 
-    cx = (left_eye_x + right_eye_x) / 2
-    cy = (left_eye_y + right_eye_y) / 2
+    eye_center1x = func((face.landmark[133].x + face.landmark[33].x + face.landmark[159].x + face.landmark[145].x) / 4, image_width)
+    eye_center1y = func((face.landmark[133].y + face.landmark[33].y + face.landmark[159].y + face.landmark[145].y) / 4, image_height)
+    eye_center2x = func((face.landmark[362].x + face.landmark[263].x + face.landmark[386].x + face.landmark[374].x) / 4, image_width)
+    eye_center2y = func((face.landmark[362].y + face.landmark[263].y + face.landmark[386].y + face.landmark[374].y) / 4, image_height)
+    
+    pupil1x = func(face.landmark[468].x, image_width)
+    pupil1y = func(face.landmark[468].y, image_height)
+    pupil2x = func(face.landmark[473].x, image_width)
+    pupil2y = func(face.landmark[473].y, image_height)
 
-    mat_rot = cv2.getRotationMatrix2D((cx, cy), eye_angle, scale)
-    tx = image_cx - cx
-    ty = image_cy - cy
-    mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
+    iris_size1a = func(np.sqrt((face.landmark[159].x - face.landmark[145].x)**2 + (face.landmark[159].y - face.landmark[145].y)**2), image_width)
+    iris_size1b = int(iris_size1a / 2)
+    iris_size2a = func(np.sqrt((face.landmark[386].x - face.landmark[374].x)**2 + (face.landmark[386].y - face.landmark[374].y)**2), image_width)
+    iris_size2b = int(iris_size2a / 2)
 
-    image_width_ = int(image_width)
-    image_height_ = int(image_height)
+    lip_width = func(np.sqrt((face.landmark[57].x - face.landmark[287].x)**2 + (face.landmark[57].y - face.landmark[287].y)**2), image_width)
+    lip_height = func(np.sqrt((face.landmark[0].x - face.landmark[17].x)**2 + (face.landmark[0].y - face.landmark[17].y)**2), image_height)
+    lip_angle = np.arctan2(face.landmark[57].y - face.landmark[287].y, face.landmark[57].x - face.landmark[287].x) * 180 / np.pi
+    lip_centerx = func((face.landmark[57].x + face.landmark[287].x + face.landmark[0].x + face.landmark[17].x) / 4, image_width)
+    lip_centery = func((face.landmark[57].y + face.landmark[287].y + face.landmark[0].y + face.landmark[17].y) / 4, image_height)
 
-    normalized_image1 = cv2.warpAffine(image, mat_rot, (image_width_, image_height_))
-    normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (image_width_, image_height_))
+    cv2.circle(image, center=(nosex, nosey), radius=face_size, color=(135, 184, 222), thickness=-1)
+    cv2.ellipse(image, ((eye_center1x, eye_center1y), (eye_width1, eye_height1), eye_angle1), (255, 255, 255), -1)
+    cv2.ellipse(image, ((eye_center2x, eye_center2y), (eye_width2, eye_height2), eye_angle2), (255, 255, 255), -1)
+    cv2.circle(image, center=(pupil1x, pupil1y), radius=iris_size1a, color=(150, 150, 0), thickness=-1)
+    cv2.circle(image, center=(pupil1x, pupil1y), radius=iris_size1b, color=(0, 0, 0), thickness=-1)
+    cv2.circle(image, center=(pupil2x, pupil2y), radius=iris_size2a, color=(150, 150, 0), thickness=-1)
+    cv2.circle(image, center=(pupil2x, pupil2y), radius=iris_size2b, color=(0, 0, 0), thickness=-1)
+    cv2.ellipse(image, ((lip_centerx, lip_centery), (lip_width, lip_height), lip_angle), (150, 150, 255), -1)
+    
+    return image
 
-    face_points1 = []
-    for p0 in face_points0:
-        x0 = p0[0]
-        y0 = p0[1]
-        x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
-        y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
-        x2 = x1 + mat_tra[0][2]
-        y2 = y1 + mat_tra[1][2]
-
-        face_points1.append((x2, y2))
-
-    left = int(image_cx - size_faceROI / 2)
-    top = int(image_cy -size_faceROI / 2 + 33)
-    right = left + size_faceROI
-    bottom = top + size_faceROI
-
-    return (left, top, right, bottom), normalized_image2, face_points1
 
 def process(image, is_show_image, draw_pattern):
     out_image = image.copy()
@@ -120,9 +127,31 @@ def process(image, is_show_image, draw_pattern):
         min_detection_confidence=0.5
     ) as face_mesh:
 
+        # landmark indexes
+        all_left_eye_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_EYE)
+        all_left_eye_idxs = set(np.ravel(all_left_eye_idxs))
+        all_right_eye_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_EYE)
+        all_right_eye_idxs = set(np.ravel(all_right_eye_idxs))
+        all_left_brow_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_EYEBROW)
+        all_left_brow_idxs = set(np.ravel(all_left_brow_idxs))
+        all_right_brow_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_EYEBROW)
+        all_right_brow_idxs = set(np.ravel(all_right_brow_idxs))
+        all_lip_idxs = list(mp.solutions.face_mesh.FACEMESH_LIPS)
+        all_lip_idxs = set(np.ravel(all_lip_idxs))
+        all_idxs = all_left_eye_idxs.union(all_right_eye_idxs)
+        all_idxs = all_idxs.union(all_left_brow_idxs)
+        all_idxs = all_idxs.union(all_right_brow_idxs)
+        all_idxs = all_idxs.union(all_lip_idxs)
+
+        left_iris_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_IRIS)
+        left_iris_idxs = set(np.ravel(left_iris_idxs))
+        right_iris_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_IRIS)
+        right_iris_idxs = set(np.ravel(right_iris_idxs))
+
         results = face_mesh.process(image)
+
         (image_height, image_width) = image.shape[:2]
-      
+
         black_image = np.zeros((image_height, image_width, 3), np.uint8)
         white_image = black_image + 200
 
@@ -132,89 +161,23 @@ def process(image, is_show_image, draw_pattern):
         if draw_pattern == "A":
             if results.multi_face_landmarks:
                 for face in results.multi_face_landmarks:
-                    for landmark in face.landmark:
-                        x = func(landmark.x, image_width)
-                        y = func(landmark.y, image_height)
+                   for landmark in face.landmark:               
+                        x = int(landmark.x * image_width)
+                        y = int(landmark.y * image_height)
                         cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
         elif draw_pattern == "B":
             if results.multi_face_landmarks:
                 for face in results.multi_face_landmarks:
-                    points = []
-                    for landmark in face.landmark:
-                        x = func(landmark.x, image_width)
-                        y = func(landmark.y, image_height)
-                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
-                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
-                        points.append((x, y))
+                    out_image = drawB(out_image, face, image_width, image_height) 
 
-                    rect_faceROI, normalized_image_faceROI, new_points_faceROI = faceROI_extraction(image, points)
-                    faceROI = normalized_image_faceROI[rect_faceROI[1]: rect_faceROI[3], rect_faceROI[0]: rect_faceROI[2]]
-                    faceROI = cv2.resize(faceROI, (100, 100))
-
-                    out_image[0: 100, 0: 100] = faceROI
+        elif draw_pattern == "C":
+            if results.multi_face_landmarks:
+                for face in results.multi_face_landmarks:
+                    out_image = drawC(out_image, face, image_width, image_height) 
 
     return cv2.flip(out_image, 1)
-
-# func to save BytesIO on a drive
-def write_bytesio_to_file(filename, bytesio):
-    """
-    Write the contents of the given BytesIO to a file.
-    Creates the file or overwrites the file if it does
-    not exist yet. 
-    """
-    with open(filename, "wb") as outfile:
-        # Copy the BytesIO stream to the output file
-        outfile.write(bytesio.getbuffer())
-
-if video_data:
-    # save uploaded video to disc
-    write_bytesio_to_file(temp_file_to_save, video_data)
-
-    # read it with cv2.VideoCapture(), 
-    # so now we can process it with OpenCV functions
-    cap = cv2.VideoCapture(temp_file_to_save)
-
-    # grab some parameters of video to use them for writing a new, processed video
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    frame_fps = cap.get(cv2.CAP_PROP_FPS)  ##<< No need for an int
-    st.write(width, height, frame_fps)
-    
-    # specify a writer to write a processed video to a disk frame by frame
-    fourcc_mp4 = cv2.VideoWriter_fourcc(*'mp4v')
-    out_mp4 = cv2.VideoWriter(temp_file_result, fourcc_mp4, frame_fps, (width, height))
-   
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-        out_image = process(frame, True, "A")
-
-#        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ##<< Generates a grayscale (thus only one 2d-array)
-        out_mp4.write(out_image)
-    
-    ## Close video files
-    out_mp4.release()
-    cap.release()
-
-    ## Reencodes video to H264 using ffmpeg
-    ##  It calls ffmpeg back in a terminal so it fill fail without ffmpeg installed
-    ##  ... and will probably fail in streamlit cloud
-    convertedVideo = "./testh264.mp4"
-    subprocess.call(args=f"ffmpeg -y -i {temp_file_result} -c:v libx264 {convertedVideo}".split(" "))
-    
-    ## Show results
-    col1, col2 = st.columns(2)
-    col1.header("Original Video")
-    col1.video(temp_file_to_save)
-#    col2.header("Output from OpenCV (MPEG-4)")
-#    col2.video(temp_file_result)
-#    col2.header("After conversion to H264")
-    col2.header("Output")
-    col2.video(convertedVideo)
 
 
 RTC_CONFIGURATION = RTCConfiguration(
@@ -247,4 +210,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_show_image = st.checkbox("show camera image", value=True)
-    webrtc_ctx.video_processor.draw_pattern = st.radio("select draw pattern", ["A", "B", "None"], key="A", horizontal=True)
+    webrtc_ctx.video_processor.draw_pattern = st.radio("select draw pattern", ["A", "B", "C", "None"], key="A", horizontal=True)
