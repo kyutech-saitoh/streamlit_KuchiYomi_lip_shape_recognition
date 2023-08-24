@@ -242,7 +242,7 @@ def main():
 
     input_image = None
 
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
 
     if image_data is not None:
         image = Image.open(image_data)
