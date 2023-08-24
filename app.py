@@ -168,6 +168,18 @@ def preprocess_(image_path, transform):
     
     return image
 
+def preprocess2(image, transform):
+    #########################################
+    # Plese write extracting lipROI process #
+    #########################################
+    
+    image = transform(image)  # PIL
+    C, H, W = image.shape
+    image = image.reshape(1, C, H, W)
+    
+    return image
+
+
 def make_graph(values):
     Y = np.arange(6)
     X = values
@@ -236,7 +248,7 @@ def main():
         # preprocess
         LFROI = preprocess(input_image)
         LFROI_array = cv2pil(LFROI)
-        crop_image = preprocess_(LFROI_array, transform)
+        crop_image = preprocess2(LFROI_array, transform)
         # predict
         predict = test(model, crop_image)
 
