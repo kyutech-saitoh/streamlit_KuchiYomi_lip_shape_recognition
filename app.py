@@ -26,8 +26,8 @@ def make_graph(values):
     arr = np.random.normal(1, 1, size=6)
     fig, ax = plt.subplots()
     # 横棒グラフ
-    #ax.barh(Y, X)
-    ax.barh(Y, arr)
+    ax.barh(Y, X)
+    #ax.barh(Y, arr)
     st.pyplot(fig)
     
 def test(model, crop_image):
