@@ -242,8 +242,6 @@ def main():
 
     input_image = None
 
-    col1, col2 = st.columns(2)
-
     if image_data is not None:
         image = Image.open(image_data)
         img_array = np.array(image)
@@ -253,14 +251,14 @@ def main():
         # preprocess
         LFROI = preprocess(input_image)
         LFROI_array = cv2pil(LFROI)
-        st.image(LFROI_array, caption='LFROI', use_column_width=True)
+        st.image(LFROI_array, caption='LFROI', width=200, use_column_width=None)
         crop_image = preprocess2(LFROI_array, transform)
         # predict
         predict = test(model, crop_image)
 
         graph_image = Image.open(temp_graph_file)
         graph_image_array = np.array(graph_image)
-        st.image(graph_image_array, caption='graph', use_column_width=True)
+        st.image(graph_image_array, caption='graph', width=100, use_column_width=None)
         
         st.write(predict)
         st.write(predict.item())
