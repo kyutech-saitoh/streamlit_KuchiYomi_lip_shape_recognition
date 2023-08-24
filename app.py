@@ -4,6 +4,7 @@ from PIL import Image
 import torch
 from torchvision import transforms
 import matplotlib.pyplot as plt
+import matplotlib.cm
 
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
@@ -27,10 +28,12 @@ def preprocess(image_path, transform):
 
 def make_graph(values):
     Y = np.arange(6)
+    Y = ['N', 'a', 'i', 'u', 'e', 'o']
     X = values
+    sm = matplotlib.cm.ScalarMappable(cmap='jet')
     fig, ax = plt.subplots()
     # 横棒グラフ
-    ax.barh(Y, X)
+    ax.barh(Y, X, color=sm.to_rgba(Y))
 
     st.pyplot(fig)
     
