@@ -238,28 +238,28 @@ def main():
     device = torch.device("cpu")
     model.to(device)
 
-    image_data = st.file_uploader("Upload file", ['jpg','png'])
+    image_path = st.file_uploader("Upload file", ['jpg', 'png'])
 
     input_image = None
 
     if image_data is not None:
-        image = Image.open(image_data)
-        img_array = np.array(image)
-        input_image = pil2cv(image) 
+        image_pil = Image.open(image_path)
+        image_array = np.array(image_pil)
+        image_cv = pil2cv(image_pil) 
 
         # preprocess
-        LFROI = preprocess(input_image)
-        input_image[0: size_LFROI, 0: size_LFROI] = LFROI
+        LFROI_cv = preprocess(image_cv)
+        image_cv[0: size_LFROI, 0: size_LFROI] = LFROI_cv
 
-        LFROI_array = cv2pil(LFROI)
+        LFROI_array = cv2pil(LFROI_cv)
 #        st.image(LFROI_array, caption='LFROI', width=200, use_column_width=None)
-        crop_image = preprocess2(LFROI_array, transform)
+        crop_image_pil = preprocess2(LFROI_array, transform)
 
         # predict
-        predict = test(model, crop_image)
+        predict = test(model, crop_image_pil)
 
-        img_array = np.array(input_image)
-        st.image(img_array, caption='uploaded image', use_column_width=None)
+        image_array = np.array(image_cv)
+        st.image(image_array, caption='uploaded image', use_column_width=None)
 
         graph_image = Image.open(temp_graph_file)
         graph_image_array = np.array(graph_image)
