@@ -3,6 +3,8 @@ import numpy as np
 from PIL import Image
 import torch
 from torchvision import transforms
+
+import japanize_matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm
 
@@ -28,12 +30,13 @@ def preprocess(image_path, transform):
 
 def make_graph(values):
     Y = np.arange(6)
-    Y = ['N', 'a', 'i', 'u', 'e', 'o']
+    #Y = ['N', 'a', 'i', 'u', 'e', 'o']
     X = values
     sm = matplotlib.cm.ScalarMappable(cmap='jet')
     fig, ax = plt.subplots()
     # 横棒グラフ
     ax.barh(Y, X, color=sm.to_rgba(X))
+    ax.set_yticklabels(['閉', 'あ', 'い', 'う', 'え', 'お'] , size=14, rotation=90)
 
     st.pyplot(fig)
     
@@ -45,7 +48,7 @@ def test(model, crop_image):
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
-        st.write(outputs)
+        #st.write(outputs)
 
         # obtain first six classes
         outputs6 = outputs[0][0:6]
