@@ -242,7 +242,7 @@ def main():
 
     input_image = None
 
-    if image_data is not None:
+    if image_path is not None:
         image_pil = Image.open(image_path)
         image_array = np.array(image_pil)
         image_cv = pil2cv(image_pil) 
