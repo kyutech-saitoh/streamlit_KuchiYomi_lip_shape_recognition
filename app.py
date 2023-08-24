@@ -36,6 +36,7 @@ def make_graph(values):
     fig, ax = plt.subplots()
     # 横棒グラフ
     ax.barh(Y, X, color=sm.to_rgba(X))
+    ax.set_yticks([0, 1, 2, 3, 4, 5])
     ax.set_yticklabels(['閉', 'あ', 'い', 'う', 'え', 'お'] , size=14)
 
     st.pyplot(fig)
