@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
+st.markdown("---")
+
+target_person_id = st.selectbox("Target person", ("P001", "P002", "P003"))
+st.write("You selected:", target_person_id)
+st.markdown("---")
 
 def preprocess(image_path, transform):
     #########################################
@@ -23,11 +28,10 @@ def preprocess(image_path, transform):
 def make_graph(values):
     Y = np.arange(6)
     X = values
-    arr = np.random.normal(1, 1, size=6)
     fig, ax = plt.subplots()
     # 横棒グラフ
     ax.barh(Y, X)
-    #ax.barh(Y, arr)
+
     st.pyplot(fig)
     
 def test(model, crop_image):
@@ -38,6 +42,7 @@ def test(model, crop_image):
     with torch.no_grad():
         # 予測
         outputs = model(crop_image)
+        st.write(outputs)
 
         # obtain first six classes
         outputs6 = outputs[0][0:6]
