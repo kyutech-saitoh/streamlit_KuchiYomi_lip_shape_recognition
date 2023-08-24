@@ -198,7 +198,7 @@ def make_graph(values):
     fig.savefig(temp_graph_file)
 
 
-def make_graph_image(values, size):
+def make_graph_image(values):
     graph_image = np.zeros((120, 100, 3), np.uint8)
 
     x0 = 10
