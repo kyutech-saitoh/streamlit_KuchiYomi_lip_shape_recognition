@@ -147,9 +147,9 @@ def LFROI_extraction(image):
                 rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image_LFROI[rect_LFROI[1]: rect_LFROI[3], rect_LFROI[0]: rect_LFROI[2]]
 
-            return LFROI
+            return out_image, LFROI
 
-    return white_image
+    return out_image, white_image
 
 
 def preprocess(image, transform):   
@@ -299,7 +299,7 @@ class VideoProcessor:
         image_height, image_width, channels = image_cv.shape[:3]
 
         # LFROI extraction
-        LFROI_cv = LFROI_extraction(image_cv)
+        image_cv, LFROI_cv = LFROI_extraction(image_cv)
         image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
         LFROI_array = cv2pil(LFROI_cv)
