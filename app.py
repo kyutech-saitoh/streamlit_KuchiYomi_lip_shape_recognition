@@ -245,7 +245,6 @@ def main():
     if image_data is not None:
         image = Image.open(image_data)
         img_array = np.array(image)
-        st.image(img_array, caption='uploaded image', use_column_width=None)
         input_image = pil2cv(image) 
 
         # preprocess
@@ -258,6 +257,9 @@ def main():
 
         # predict
         predict = test(model, crop_image)
+
+        img_array = np.array(input_image)
+        st.image(img_array, caption='uploaded image', use_column_width=None)
 
         graph_image = Image.open(temp_graph_file)
         graph_image_array = np.array(graph_image)
