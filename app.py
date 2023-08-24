@@ -333,10 +333,6 @@ def process(image, is_show_image, draw_pattern):
     return cv2.flip(out_image, 1)
 
 
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-)
-
 # data transform
 transform = transforms.Compose([
     transforms.Resize((160, 160)),
@@ -354,6 +350,10 @@ device = torch.device("cpu")
 model.to(device)
 
 magrin = 5
+
+RTC_CONFIGURATION = RTCConfiguration(
+    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+)
 
 class VideoProcessor:
     def __init__(self) -> None:
