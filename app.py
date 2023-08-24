@@ -211,7 +211,7 @@ def test(model, crop_image):
 
         # obtain first six classes
         probabilities6 = probabilities[0:6]
-        st.write(probabilities6)
+        #st.write(probabilities6)
 
         make_graph(probabilities6)
         
