@@ -312,7 +312,7 @@ class VideoProcessor:
         image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
         LFROI_array = cv2pil(LFROI_cv)
-        crop_image_pil = preprocess(LFROI_cv, transform)
+        crop_image_pil = preprocess(LFROI_array, transform)
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
