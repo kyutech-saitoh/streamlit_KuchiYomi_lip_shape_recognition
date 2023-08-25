@@ -177,7 +177,7 @@ def make_graph_image(values):
     graph_image = np.zeros((size_graph_height, size_graph_width, 3), np.uint8)
 
     fontface = cv2.FONT_HERSHEY_PLAIN
-    label = ["N", "a", "i", "u", "e", "o"]
+    label = ["a", "i", "u", "e", "o", "N"]
     fontscale = 1.0
     thickness = 1
 
@@ -280,10 +280,8 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# vowel dict
-idxtovowel = {0: '閉口', 1: 'あ', 2: 'い', 3: 'う', 4: 'え', 5: 'お'}
 # training model path
-model_path = 'model/model_mobilenetv2.pth'
+model_path = "model/model.pth"
 # load model
 model = torch.load(model_path)
 # load device : cpu
