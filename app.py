@@ -17,7 +17,7 @@ landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 
 # right eye contour
 landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
 
-size_LFROI = 200
+size_LFROI = 160
 size_graph_width = 200
 size_graph_height = 140
 previous_time = time.perf_counter()
@@ -87,7 +87,7 @@ def LFROI_extraction_sub(image, face_points0):
 
     eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
 
-    target_eye_distance = 200
+    target_eye_distance = 160
     scale = target_eye_distance / eye_distance
     cx = nose_x
     cy = nose_y
@@ -275,7 +275,7 @@ def process(image, is_show_image, draw_pattern):
 
 # data transform
 transform = transforms.Compose([
-    transforms.Resize((160, 160)),
+    #transforms.Resize((160, 160)),
     transforms.ToTensor(),
 ])
 
@@ -312,8 +312,9 @@ class VideoProcessor:
         image_cv, LFROI_cv = LFROI_extraction(image_cv)
         image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
-        LFROI_array = cv2pil(LFROI_cv)
-        crop_image_pil = preprocess(LFROI_array, transform)
+        #LFROI_array = cv2pil(LFROI_cv)
+        #crop_image_pil = preprocess(LFROI_array, transform)
+        crop_image_pil = preprocess(LFROI_cv, transform)
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
