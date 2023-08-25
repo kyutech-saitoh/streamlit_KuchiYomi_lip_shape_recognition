@@ -185,8 +185,11 @@ def make_graph_image(values):
             cv2.rectangle(graph_image, (x0+1, y0+1), (x1-1, y1-1), (200, 255, 200), -1)
 
         (w, h), baseline = cv2.getTextSize(label[idx], fontface, fontscale, thickness)
-        x = int((x0 - w) / 2)
+        x = int((20 - w) / 2)
         cv2.putText(graph_image, label[idx], (x, y1-3), fontface, fontscale, (255, 255, 255), thickness)
+
+        str_value = "%0.3f" % v
+        cv2.putText(graph_image, str_value, (20, y1-3), fontface, fontscale, (255, 255, 255), thickness)
         
     return graph_image
 
