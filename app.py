@@ -10,7 +10,6 @@ import subprocess
 import torch
 from torchvision import transforms
 import time
-
 import random
 
 # left eye contour
