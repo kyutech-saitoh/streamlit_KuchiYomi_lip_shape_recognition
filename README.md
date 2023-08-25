@@ -12,6 +12,8 @@ You can try it not only on your PC but also on your tablet or smartphone.
 
 [https://kyutech-saitoh-webcam-facemotion.streamlit.app/](https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/)https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/
 
+![QR](data/QR.png)
+
 ---
 
 日本語6口形（5母音＋閉唇）認識のデモプログラムです。研究用のため、随時更新します。
