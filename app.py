@@ -21,12 +21,11 @@ landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 3
 size_LFROI = 200
 size_graph_width = 200
 size_graph_height = 140
+previous_time = time.perf_counter()
 
 st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
-
-previous_time = time.perf_counter()
 
 def pil2cv(image):
     ''' PIL型 -> OpenCV型 '''
@@ -314,12 +313,7 @@ class VideoProcessor:
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
-        current_time = time.perf_counter()
-        process_time = current_time - previous_time
-        previous_time = current_time
-        frame_rate = 1.0 / process_time
-        str = "%.1f" % frame_rate
-        cv2.putText(image_cv, str (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+
 
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
