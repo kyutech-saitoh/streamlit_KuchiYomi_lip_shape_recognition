@@ -18,7 +18,8 @@ landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 
 landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
 
 size_LFROI = 200
-
+size_graph_width = 200
+size_graph_height = 120
 
 st.title("Streamlit App: Mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
@@ -162,7 +163,7 @@ def preprocess(image, transform):
 
 
 def make_graph_image(values):
-    graph_image = np.zeros((200, 120, 3), np.uint8)
+    graph_image = np.zeros((size_graph_width, size_graph_height, 3), np.uint8)
 
     fontface = cv2.FONT_HERSHEY_PLAIN
     label = ["N", "a", "i", "u", "e", "o"]
@@ -305,7 +306,7 @@ class VideoProcessor:
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
-        image_cv[magrin:magrin+120, image_width-1-120-magrin:image_width-1-magrin] = graph_image_cv
+        image_cv[magrin:magrin+size_graph_height, image_width-1-size_graph_width-magrin:image_width-1-magrin] = graph_image_cv
         
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
