@@ -172,7 +172,7 @@ def make_graph_image(values):
 
     max_idx = np.argmax(values)
 
-    x0 = 100
+    x0 = 90
     for idx, v in enumerate(values):
         x1 = x0 + int(v * 100)
         y0 = idx * 20
@@ -189,7 +189,7 @@ def make_graph_image(values):
         cv2.putText(graph_image, label[idx], (x, y1-3), fontface, fontscale, (255, 255, 255), thickness)
 
         str_value = "(%0.3f)" % v
-        cv2.putText(graph_image, str_value, (20, y1-3), fontface, fontscale, (255, 255, 255), thickness)
+        cv2.putText(graph_image, str_value, (25, y1-3), fontface, fontscale, (255, 255, 255), thickness)
         
     return graph_image
 
