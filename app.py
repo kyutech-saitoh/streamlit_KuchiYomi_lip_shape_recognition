@@ -163,7 +163,7 @@ def preprocess(image, transform):
 
 
 def make_graph_image(values):
-    graph_image = np.zeros((size_graph_width, size_graph_height, 3), np.uint8)
+    graph_image = np.zeros((size_graph_height, size_graph_width, 3), np.uint8)
 
     fontface = cv2.FONT_HERSHEY_PLAIN
     label = ["N", "a", "i", "u", "e", "o"]
@@ -306,7 +306,7 @@ class VideoProcessor:
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
-        image_cv[magrin:magrin+size_graph_height, image_width-1-size_graph_width-magrin:image_width-1-magrin] = graph_image_cv
+        image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
         
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
