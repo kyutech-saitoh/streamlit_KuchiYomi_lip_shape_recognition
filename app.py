@@ -297,8 +297,7 @@ RTC_CONFIGURATION = RTCConfiguration(
 
 class VideoProcessor:
     def __init__(self) -> None:
-        self.is_show_image = True
-        self.draw_pattern = "A"
+        self.target_person_id = "P001"
 
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
@@ -332,5 +331,4 @@ webrtc_ctx = webrtc_streamer(
 
 
 if webrtc_ctx.video_processor:
-    webrtc_ctx.video_processor.is_show_image = st.checkbox("show camera image", value=True)
-    webrtc_ctx.video_processor.draw_pattern = st.radio("select draw pattern", ["A", "B", "C", "None"], key="A", horizontal=True)
+    webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P001", "P002", "P003"))
