@@ -315,9 +315,8 @@ class VideoProcessor:
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
         str = "%.1f" % (1.0 / (time.perf_counter() - self.current_time))
-        #cv2.putText(image_cv, str (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        cv2.putText(image_cv, str, (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
-        #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
 
