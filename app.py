@@ -21,12 +21,8 @@ size_LFROI = 200
 size_graph_width = 200
 size_graph_height = 140
 
-st.title("Streamlit App: Mouth shape recognition")
+st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
-st.markdown("---")
-
-target_person_id = st.selectbox("Target person", ("P001", "P002", "P003"))
-st.write("You selected:", target_person_id)
 st.markdown("---")
 
 def pil2cv(image):
