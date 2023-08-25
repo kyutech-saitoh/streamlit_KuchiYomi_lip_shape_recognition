@@ -314,8 +314,8 @@ class VideoProcessor:
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
-        str = "%.1f" % (1.0 / (time.perf_counter() - self.current_time))
-        cv2.putText(image_cv, str, (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
+        cv2.putText(image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
