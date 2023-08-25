@@ -313,7 +313,10 @@ class VideoProcessor:
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
-
+        current_time = time.perf_counter()
+        process_time = current_time - previous_time
+        previous_time = current_time
+        frame_rate = 1.0 / process_time
 
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
