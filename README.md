@@ -10,7 +10,7 @@ You can try it not only on your PC but also on your tablet or smartphone.
 - MediaPipe
 - CNN
 
-[https://kyutech-saitoh-webcam-facemotion.streamlit.app/](https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/)
+[https://kyutech-saitoh-webcam-facemotion.streamlit.app/]https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/
 ![QR](data/QR.png)
 
 ---
@@ -24,4 +24,4 @@ PCだけでなくタブレットやスマートフォンでもお試しいただ
 - MediaPipe
 - CNN
 
-[https://kyutech-saitoh-webcam-facemotion.streamlit.app/](https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/)
+[https://kyutech-saitoh-webcam-facemotion.streamlit.app/]https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/
