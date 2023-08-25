@@ -315,10 +315,10 @@ class VideoProcessor:
 
         current_time = time.perf_counter()
         process_time = current_time - previous_time
-        previous_time = current_time
         #frame_rate = 1.0 / process_time
         #str = "%.1f" % frame_rate
         #cv2.putText(image_cv, str (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        #previous_time = current_time
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
