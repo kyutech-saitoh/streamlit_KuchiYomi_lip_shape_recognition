@@ -211,9 +211,9 @@ def prediction(model, crop_image):
         probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
         # obtain first six classes
-        probabilities6 = probabilities[0:6]
+        #probabilities6 = probabilities[0:6]
 
-        graph_image = make_graph_image(probabilities6)
+        graph_image = make_graph_image(probabilities)
         
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
