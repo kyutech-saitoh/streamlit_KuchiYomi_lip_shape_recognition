@@ -296,6 +296,7 @@ RTC_CONFIGURATION = RTCConfiguration(
 class VideoProcessor:
     def __init__(self) -> None:
         self.target_person_id = "P001"
+        self.current_time = time.perf_counter()
 
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
@@ -313,12 +314,9 @@ class VideoProcessor:
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
-        current_time = time.perf_counter()
-        process_time = current_time - previous_time
-        frame_rate = 1.0 / process_time
-        str = "%.1f" % frame_rate
+        str = "%.1f" % (1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(image_cv, str (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
-        previous_time = time.perf_counter()
+        self.current_time = time.perf_counter()
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
         return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
