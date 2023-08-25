@@ -9,6 +9,7 @@ import mediapipe as mp
 import subprocess
 import torch
 from torchvision import transforms
+import time
 
 import random
 
@@ -24,6 +25,8 @@ size_graph_height = 140
 st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
+
+previous_time = time.time()
 
 def pil2cv(image):
     ''' PIL型 -> OpenCV型 '''
@@ -310,6 +313,13 @@ class VideoProcessor:
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
         image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+
+        current_time = time.time()
+        process_time = current_time - previous_time
+        previous_time = current_time
+        frame_rate = 1.0 / process_time
+        cv2.putText(image_cv, "%.1f" % frame_rate, (100, image_height-10), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+
         
         #image_cv = process(image_cv, self.is_show_image, self.draw_pattern)
         
