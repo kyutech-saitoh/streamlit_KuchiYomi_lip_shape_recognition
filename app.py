@@ -138,6 +138,7 @@ def LFROI_extraction(image):
 
     black_image = np.zeros((size_LFROI, size_LFROI, 3), np.uint8)
     white_image = black_image + 200
+    is_detected_face = False
 
     with mp.solutions.face_mesh.FaceMesh(
         static_image_mode=True,
@@ -148,7 +149,9 @@ def LFROI_extraction(image):
 
         results = face_mesh.process(image)
         (image_height, image_width) = image.shape[:2]
-      
+
+        is_detected_face = True
+
         if results.multi_face_landmarks:
             for face in results.multi_face_landmarks:
                 points = []
@@ -162,9 +165,9 @@ def LFROI_extraction(image):
                 rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image_LFROI[rect_LFROI[1]: rect_LFROI[3], rect_LFROI[0]: rect_LFROI[2]]
 
-            return out_image, LFROI
+            return out_image, LFROI, is_detected_face
 
-    return out_image, white_image
+    return out_image, white_image, is_detected_face
 
 
 def preprocess(image, transform):   
@@ -312,22 +315,25 @@ class VideoProcessor:
         image_height, image_width, channels = image_cv.shape[:3]
 
         # LFROI extraction
-        image_cv, LFROI_cv = LFROI_extraction(image_cv)
+        image_cv, LFROI_cv, is_detected_face = LFROI_extraction(image_cv)
 
         if self.is_mirroring == True:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
 
-        out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
-
-        #LFROI_array = cv2pil(LFROI_cv)
-        #crop_image_pil = preprocess(LFROI_array, transform)
-        crop_image_pil = preprocess(LFROI_cv, transform)
-
-        # predict
-        predict, graph_image_cv = prediction(model, crop_image_pil)
-        out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+        if is_detected_face == True:
+            out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
+    
+            #LFROI_array = cv2pil(LFROI_cv)
+            #crop_image_pil = preprocess(LFROI_array, transform)
+            crop_image_pil = preprocess(LFROI_cv, transform)
+    
+            # predict
+            predict, graph_image_cv = prediction(model, crop_image_pil)
+            out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+        else:
+            cv2.putText(out_image_cv, "No face detected", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
 
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
