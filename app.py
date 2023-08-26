@@ -74,6 +74,9 @@ def func(value1, value2):
 
 
 def LFROI_extraction_sub(image, face_points0):
+    global str_message1
+    global str_message2
+
     image_height, image_width, channels = image.shape[:3]
 
     image_cx = image_width / 2
@@ -145,6 +148,7 @@ def LFROI_extraction_sub(image, face_points0):
     bottom = top + target_eye_distance
 
     str_message = "eye distance = %.0f pixel, angle = %.1f" % (eye_distance, eye_angle)
+
     str_message1 = "eye distance = %.0f pixel" % eye_distance
     str_message2 = "angle = %.1f" % eye_angle
 
@@ -152,6 +156,9 @@ def LFROI_extraction_sub(image, face_points0):
 
 
 def LFROI_extraction(image):
+    global str_message1
+    global str_message2
+
     out_image = image.copy()
 
     black_image = np.zeros((size_LFROI, size_LFROI, 3), np.uint8)
