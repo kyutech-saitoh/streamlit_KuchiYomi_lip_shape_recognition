@@ -90,7 +90,7 @@ def LFROI_extraction_sub(image, face_points0):
     else:
         eye_angle = 0
 
-    eye_angle = -eye_angle *  math.pi / 180
+    #eye_angle = -eye_angle * math.pi / 180
     #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
     #eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
@@ -135,7 +135,7 @@ def LFROI_extraction_sub(image, face_points0):
     right = left + target_eye_distance
     bottom = top + target_eye_distance
 
-    str_message = "eye distance = %f pixel, angle = %.1f" % (eye_distance, eye_angle)
+    str_message = "eye distance = %.0f pixel, angle = %.1f" % (eye_distance, eye_angle)
     
     return (left, top, right, bottom), normalized_image2, face_points1, str_message
 
@@ -289,7 +289,7 @@ class VideoProcessor:
 
         #else:
             #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-        cv2.putText(out_image_cv, str_message, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
         
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
