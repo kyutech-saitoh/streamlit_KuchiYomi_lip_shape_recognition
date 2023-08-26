@@ -31,7 +31,7 @@ import psutil
 
 st.write("OS: " + platform.platform())
 st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
-st.write("RAM: total %d GB, used %.1f %" % (psutil.virtual_memory().total / 1024 / 1024, psutil.virtual_memory().used))
+st.write("RAM: total %d GB, used %.1f \%" % (psutil.virtual_memory().total / 1024 / 1024, psutil.virtual_memory().used))
 
 str_message1 = ""
 str_message2 = ""
