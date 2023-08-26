@@ -28,7 +28,7 @@ st.markdown("---")
 
 import platform
 
-st.write(platform.system())
+st.write(platform.platform())
 
 str_message1 = ""
 str_message2 = ""
