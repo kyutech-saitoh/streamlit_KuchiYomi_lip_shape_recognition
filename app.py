@@ -289,7 +289,7 @@ class VideoProcessor:
 
         #else:
             #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-        cv2.putText(out_image_cv, str_message, (20, image_height-40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 1)
+        cv2.putText(out_image_cv, str_message, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
         
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
