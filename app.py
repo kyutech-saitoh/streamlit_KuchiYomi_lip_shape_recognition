@@ -347,5 +347,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
-    webrtc_ctx.video_processor.is_mirroring = st.radio("select draw pattern", ["A", "B", "C", "None"], key="A", horizontal=True)
     webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P001", "P002", "P003"))
