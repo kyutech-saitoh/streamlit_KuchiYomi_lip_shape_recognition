@@ -309,7 +309,8 @@ class VideoProcessor:
 
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
-        if is_mirroring == True:
+
+        if self.is_mirroring == True:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
