@@ -303,17 +303,22 @@ RTC_CONFIGURATION = RTCConfiguration(
 
 class VideoProcessor:
     def __init__(self) -> None:
+        self.is_mirroring = True
         self.target_person_id = "P001"
         self.current_time = time.perf_counter()
 
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
-
+        if is_mirroring == True:
+            out_image_cv = cv2.flip(image_cv, 1)
+        else:
+            out_image_cv = image_cv.copy()
+            
         image_height, image_width, channels = image_cv.shape[:3]
 
         # LFROI extraction
         image_cv, LFROI_cv = LFROI_extraction(image_cv)
-        image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
+        out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
         #LFROI_array = cv2pil(LFROI_cv)
         #crop_image_pil = preprocess(LFROI_array, transform)
@@ -321,13 +326,13 @@ class VideoProcessor:
 
         # predict
         predict, graph_image_cv = prediction(model, crop_image_pil)
-        image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+        out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
 
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
-        cv2.putText(image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
+        cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
-        
-        return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
+
+        return av.VideoFrame.from_ndarray(out_image_cv, format="bgr24")
 
 
 webrtc_ctx = webrtc_streamer(
@@ -341,4 +346,6 @@ webrtc_ctx = webrtc_streamer(
 
 
 if webrtc_ctx.video_processor:
+    webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
+    webrtc_ctx.video_processor.is_mirroring = st.radio("select draw pattern", ["A", "B", "C", "None"], key="A", horizontal=True)
     webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P001", "P002", "P003"))
