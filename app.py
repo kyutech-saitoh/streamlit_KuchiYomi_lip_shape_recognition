@@ -90,7 +90,7 @@ def LFROI_extraction_sub(image, face_points0):
     else:
         eye_angle = 0
 
-    eye_angle = eye_angle *  math.pi / 180
+    eye_angle = -eye_angle *  math.pi / 180
     #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
     #eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
@@ -221,67 +221,12 @@ def prediction(model, crop_image):
         outputs = model(crop_image)
         probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
-        # obtain first six classes
-        #probabilities6 = probabilities[0:6]
-
         graph_image = make_graph_image(probabilities)
         
         # 予測結果をクラス番号に変換
         _, predicted = torch.max(outputs, 1)
 
     return predicted, graph_image
-
-
-def process(image, is_show_image, draw_pattern):
-    out_image = image.copy()
-
-    with mp.solutions.face_mesh.FaceMesh(
-        static_image_mode=True,
-        max_num_faces=1,
-        refine_landmarks=True,
-        min_detection_confidence=0.5
-    ) as face_mesh:
-
-        # landmark indexes
-        all_left_eye_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_EYE)
-        all_left_eye_idxs = set(np.ravel(all_left_eye_idxs))
-        all_right_eye_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_EYE)
-        all_right_eye_idxs = set(np.ravel(all_right_eye_idxs))
-        all_left_brow_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_EYEBROW)
-        all_left_brow_idxs = set(np.ravel(all_left_brow_idxs))
-        all_right_brow_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_EYEBROW)
-        all_right_brow_idxs = set(np.ravel(all_right_brow_idxs))
-        all_lip_idxs = list(mp.solutions.face_mesh.FACEMESH_LIPS)
-        all_lip_idxs = set(np.ravel(all_lip_idxs))
-        all_idxs = all_left_eye_idxs.union(all_right_eye_idxs)
-        all_idxs = all_idxs.union(all_left_brow_idxs)
-        all_idxs = all_idxs.union(all_right_brow_idxs)
-        all_idxs = all_idxs.union(all_lip_idxs)
-
-        left_iris_idxs = list(mp.solutions.face_mesh.FACEMESH_LEFT_IRIS)
-        left_iris_idxs = set(np.ravel(left_iris_idxs))
-        right_iris_idxs = list(mp.solutions.face_mesh.FACEMESH_RIGHT_IRIS)
-        right_iris_idxs = set(np.ravel(right_iris_idxs))
-
-        results = face_mesh.process(image)
-
-        (image_height, image_width) = image.shape[:2]
-
-        black_image = np.zeros((image_height, image_width, 3), np.uint8)
-        white_image = black_image + 200
-
-        if is_show_image == False:
-            out_image = white_image.copy()
-
-        if results.multi_face_landmarks:
-            for face in results.multi_face_landmarks:
-               for landmark in face.landmark:               
-                    x = int(landmark.x * image_width)
-                    y = int(landmark.y * image_height)
-                    cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
-                    cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
-
-    return cv2.flip(out_image, 1)
 
 
 # data transform
