@@ -17,17 +17,17 @@ landmark_left_eye_points = [133, 173, 157, 158, 159, 160, 161, 246, 33, 7, 163, 
 # right eye contour
 landmark_right_eye_points = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
 
-size_LFROI = 160
-size_graph_width = 200
-size_graph_height = 140
-previous_time = time.perf_counter()
+size_LFROI = 160 # [pixel]
+size_graph_width = 200 # [pixel]
+size_graph_height = 140 # [pixel]
+previous_time = time.perf_counter() # [sec]
 
 st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
 def pil2cv(image):
-    ''' PIL型 -> OpenCV型 '''
+    ''' PIL型 --> OpenCV型 '''
     new_image = np.array(image, dtype=np.uint8)
     if new_image.ndim == 2:
         # モノクロ
@@ -43,7 +43,7 @@ def pil2cv(image):
 
 
 def cv2pil(image):
-    ''' OpenCV型 -> PIL型 '''
+    ''' OpenCV型 --> PIL型 '''
     new_image = image.copy()
     if new_image.ndim == 2:
         # モノクロ
@@ -85,8 +85,8 @@ def LFROI_extraction_sub(image, face_points0):
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
     eye_distance = math.sqrt(eye_distance2)
 
-    eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
-    #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
+    #eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+    eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
     #eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
