@@ -285,10 +285,10 @@ class VideoProcessor:
             predict, graph_image_cv = prediction(model, crop_image_pil)
             out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
             #cv2.putText(out_image_cv, "No face detected", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 2)
-            cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+            #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
-        else:
-            cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        #else:
+            #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
         
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
