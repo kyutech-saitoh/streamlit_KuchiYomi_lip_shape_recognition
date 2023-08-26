@@ -86,7 +86,7 @@ def LFROI_extraction_sub(image, face_points0):
     eye_distance = math.sqrt(eye_distance2)
 
     if left_eye_x != right_eye_x:
-        eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+        eye_angle = math.atan(float(left_eye_y - right_eye_y) / float(left_eye_x - right_eye_x))
     else:
         eye_angle = 0
 
@@ -293,7 +293,7 @@ class VideoProcessor:
 
         
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
-        cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
+        cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
 
         return av.VideoFrame.from_ndarray(out_image_cv, format="bgr24")
