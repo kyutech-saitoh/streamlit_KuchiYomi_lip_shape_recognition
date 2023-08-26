@@ -27,11 +27,13 @@ st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
 import platform
+import psutil
 
-st.write(platform.platform())
+st.write("OS: " + platform.platform())
+st.write("CPU: " + psutil.cpu_freq().current)
 
-str_message1 = ""
-str_message2 = ""
+str_message1 = "test1"
+str_message2 = "test2"
 
 def pil2cv(image):
     ''' PIL型 --> OpenCV型 '''
