@@ -150,8 +150,6 @@ def LFROI_extraction(image):
         results = face_mesh.process(image)
         (image_height, image_width) = image.shape[:2]
 
-        is_detected_face = True
-
         if results.multi_face_landmarks:
             for face in results.multi_face_landmarks:
                 points = []
@@ -164,6 +162,8 @@ def LFROI_extraction(image):
 
                 rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image_LFROI[rect_LFROI[1]: rect_LFROI[3], rect_LFROI[0]: rect_LFROI[2]]
+
+            is_detected_face = True
 
             return out_image, LFROI, is_detected_face
 
@@ -332,9 +332,11 @@ class VideoProcessor:
             # predict
             predict, graph_image_cv = prediction(model, crop_image_pil)
             out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+
         else:
             cv2.putText(out_image_cv, "No face detected", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
 
+        
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
