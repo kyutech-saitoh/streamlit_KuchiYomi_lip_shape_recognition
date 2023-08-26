@@ -72,22 +72,22 @@ def LFROI_extraction_sub(image, face_points0):
 
     left_eye_x = face_points0[33][0]
     left_eye_y = face_points0[33][1]
-    left_eye_point = (left_eye_x, left_eye_y)
+    #left_eye_point = (left_eye_x, left_eye_y)
 
     right_eye_x = face_points0[263][0]
     right_eye_y = face_points0[263][1]
-    right_eye_point = (right_eye_x, right_eye_y)
+    #right_eye_point = (right_eye_x, right_eye_y)
 
     nose_x = face_points0[2][0]
     nose_y = face_points0[2][1]
-    nose_point = (nose_x, nose_y)
+    #nose_point = (nose_x, nose_y)
 
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
     eye_distance = math.sqrt(eye_distance2)
 
     eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
     #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
-    #eye_angle = math.degrees(eye_angle)
+    eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
     target_eye_distance = 160
@@ -123,10 +123,10 @@ def LFROI_extraction_sub(image, face_points0):
     #right = left + size_LFROI
     #bottom = top + size_LFROI
 
-    lipx = (face_points1[61][0] + face_points1[291][0]) / 2
-    lipy = (face_points1[61][1] + face_points1[291][1]) / 2
-    left = int(lipx - target_eye_distance / 2)
-    top = int(lipy - target_eye_distance / 3)
+    lip_x = (face_points1[61][0] + face_points1[291][0]) / 2
+    lip_y = (face_points1[61][1] + face_points1[291][1]) / 2
+    left = int(lip_x - target_eye_distance / 2)
+    top = int(lip_y - target_eye_distance / 3)
     right = left + target_eye_distance
     bottom = top + target_eye_distance
     
