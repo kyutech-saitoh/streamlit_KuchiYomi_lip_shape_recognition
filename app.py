@@ -30,7 +30,7 @@ import platform
 import psutil
 
 st.write("OS: " + platform.platform())
-st.write("CPU: " + psutil.cpu_freq().current)
+st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
 
 str_message1 = "test1"
 str_message2 = "test2"
