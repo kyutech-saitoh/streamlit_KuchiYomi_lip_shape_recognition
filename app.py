@@ -31,9 +31,10 @@ import psutil
 
 st.write("OS: " + platform.platform())
 st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
+st.write("RAM: total %d GB, used %.1f %" % (psutil.virtual_memory().total / 1024 / 1024, psutil.virtual_memory().used))
 
-str_message1 = "test1"
-str_message2 = "test2"
+str_message1 = ""
+str_message2 = ""
 
 def pil2cv(image):
     ''' PIL型 --> OpenCV型 '''
@@ -310,7 +311,7 @@ class VideoProcessor:
 
         #else:
             #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-        cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        #cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         
         cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
