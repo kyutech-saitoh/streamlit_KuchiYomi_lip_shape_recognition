@@ -86,15 +86,12 @@ def LFROI_extraction_sub(image, face_points0):
 
     left_eye_x = face_points0[33][0]
     left_eye_y = face_points0[33][1]
-    #left_eye_point = (left_eye_x, left_eye_y)
 
     right_eye_x = face_points0[263][0]
     right_eye_y = face_points0[263][1]
-    #right_eye_point = (right_eye_x, right_eye_y)
 
     nose_x = face_points0[2][0]
     nose_y = face_points0[2][1]
-    #nose_point = (nose_x, nose_y)
 
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
     eye_distance = math.sqrt(eye_distance2)
@@ -104,9 +101,9 @@ def LFROI_extraction_sub(image, face_points0):
     else:
         eye_angle = 0
 
-    eye_angle = -eye_angle * math.pi / 180
+    #eye_angle = -eye_angle * math.pi / 180
     #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
-    #eye_angle = math.degrees(eye_angle)
+    eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
     target_eye_distance = 160
@@ -149,12 +146,10 @@ def LFROI_extraction_sub(image, face_points0):
     right = left + target_eye_distance
     bottom = top + target_eye_distance
 
-    str_message = "eye distance = %.0f pixel, angle = %.1f" % (eye_distance, eye_angle)
-
     str_message1 = "eye distance = %.0f pixel" % eye_distance
     str_message2 = "angle = %.1f" % eye_angle
 
-    return (left, top, right, bottom), normalized_image2, face_points1, str_message
+    return (left, top, right, bottom), normalized_image2, face_points1
 
 
 def LFROI_extraction(image):
@@ -187,17 +182,17 @@ def LFROI_extraction(image):
                     cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
 
-                rect_LFROI, normalized_image, new_points_LFROI, str_message = LFROI_extraction_sub(image, points)
+                rect_LFROI, normalized_image, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image[rect_LFROI[1]:rect_LFROI[3], rect_LFROI[0]:rect_LFROI[2]]
 
             is_detected_face = True
 
-            return out_image, LFROI, is_detected_face, str_message
+            return out_image, LFROI, is_detected_face
 
     str_message1 = "no face detected"
     str_message2 = ""
     
-    return out_image, white_image, is_detected_face, "no face detected"
+    return out_image, white_image, is_detected_face
 
 
 def preprocess(image, transform):   
@@ -290,7 +285,7 @@ class VideoProcessor:
         image_height, image_width, channels = image_cv.shape[:3]
 
         # LFROI extraction
-        image_cv, LFROI_cv, is_detected_face, str_message = LFROI_extraction(image_cv)
+        image_cv, LFROI_cv, is_detected_face = LFROI_extraction(image_cv)
 
         if self.is_mirroring == True:
             out_image_cv = cv2.flip(image_cv, 1)
@@ -307,17 +302,10 @@ class VideoProcessor:
             # predict
             predict, graph_image_cv = prediction(model, crop_image_pil)
             out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
-            #cv2.putText(out_image_cv, "No face detected", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 2)
-            #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-
-        #else:
-            #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-        #cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         
         cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
-        
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
