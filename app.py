@@ -85,9 +85,10 @@ def LFROI_extraction_sub(image, face_points0):
     eye_distance2 = (left_eye_x - right_eye_x) * (left_eye_x - right_eye_x) + (left_eye_y - right_eye_y) * (left_eye_y - right_eye_y)
     eye_distance = math.sqrt(eye_distance2)
 
-    eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
-    eye_angle = math.degrees(eye_angle)
-    eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
+    eye_angle = math.atan((left_eye_y - right_eye_y) / (left_eye_x - right_eye_x))
+    #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
+    #eye_angle = math.degrees(eye_angle)
+    #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
     target_eye_distance = 160
     scale = target_eye_distance / eye_distance
