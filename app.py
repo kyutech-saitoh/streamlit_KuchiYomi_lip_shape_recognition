@@ -165,8 +165,8 @@ def LFROI_extraction(image):
                     cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
 
-                rect_LFROI, normalized_image_LFROI, new_points_LFROI = LFROI_extraction_sub(image, points)
-                LFROI = normalized_image_LFROI[rect_LFROI[1]: rect_LFROI[3], rect_LFROI[0]: rect_LFROI[2]]
+                rect_LFROI, normalized_image, new_points_LFROI = LFROI_extraction_sub(image, points)
+                LFROI = normalized_image[rect_LFROI[1]:rect_LFROI[3], rect_LFROI[0]:rect_LFROI[2]]
 
             is_detected_face = True
 
