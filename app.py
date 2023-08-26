@@ -26,6 +26,9 @@ st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
+str_message1 = ""
+str_message2 = ""
+
 def pil2cv(image):
     ''' PIL型 --> OpenCV型 '''
     new_image = np.array(image, dtype=np.uint8)
@@ -136,7 +139,9 @@ def LFROI_extraction_sub(image, face_points0):
     bottom = top + target_eye_distance
 
     str_message = "eye distance = %.0f pixel, angle = %.1f" % (eye_distance, eye_angle)
-    
+    str_message1 = "eye distance = %.0f pixel" % eye_distance
+    str_message2 = "angle = %.1f" % eye_angle
+
     return (left, top, right, bottom), normalized_image2, face_points1, str_message
 
 
@@ -174,6 +179,9 @@ def LFROI_extraction(image):
 
             return out_image, LFROI, is_detected_face, str_message
 
+    str_message1 = "no face detected"
+    str_message2 = ""
+    
     return out_image, white_image, is_detected_face, "no face detected"
 
 
@@ -290,6 +298,8 @@ class VideoProcessor:
         #else:
             #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
         
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
