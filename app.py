@@ -309,16 +309,16 @@ class VideoProcessor:
 
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
+        image_height, image_width, channels = image_cv.shape[:3]
+
+        # LFROI extraction
+        image_cv, LFROI_cv = LFROI_extraction(image_cv)
 
         if self.is_mirroring == True:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
-            
-        image_height, image_width, channels = image_cv.shape[:3]
 
-        # LFROI extraction
-        image_cv, LFROI_cv = LFROI_extraction(image_cv)
         out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
 
         #LFROI_array = cv2pil(LFROI_cv)
