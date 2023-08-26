@@ -26,6 +26,10 @@ st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
+import platform
+
+st.write(platform.system())
+
 str_message1 = ""
 str_message2 = ""
 
@@ -298,6 +302,7 @@ class VideoProcessor:
         #else:
             #cv2.putText(out_image_cv, str_message, (20, size_LFROI+margin+40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message, (20, image_height-50), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
+        
         cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
 
