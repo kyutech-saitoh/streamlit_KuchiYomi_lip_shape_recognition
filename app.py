@@ -256,7 +256,7 @@ transform = transforms.Compose([
 ])
 
 # training model path
-model_path = "model/model_P01.pth"
+model_path = "model/model.pth"
 # load model
 model = torch.load(model_path)
 # load device : cpu
