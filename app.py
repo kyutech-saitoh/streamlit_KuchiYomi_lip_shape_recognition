@@ -26,6 +26,8 @@ st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
+target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+
 import platform
 import psutil
 
@@ -257,9 +259,21 @@ transform = transforms.Compose([
 ])
 
 # training model path
-model_path = "model/model.pth"
+#model_path = "model/model.pth"
 # load model
-model = torch.load(model_path)
+#model = torch.load(model_path)
+
+if target_person_id == "P01":
+    model = torch.load("model/model_P01.pth")
+elif target_person_id == "P14":
+    model = torch.load("model/model_P14.pth")
+elif target_person_id == "P21":
+    model = torch.load("model/model_P21.pth")
+elif target_person_id == "P25":
+    model = torch.load("model/model_P25.pth")
+elif target_person_id == "P26":
+    model = torch.load("model/model_P26.pth")
+
 # load device : cpu
 device = torch.device("cpu")
 model.to(device)
@@ -281,10 +295,7 @@ class VideoProcessor:
         self.target_person_id = current_target_person_id
         self.current_time = time.perf_counter()
 
-    def recv(self, frame):
-        global current_target_person_id
-        global model
-        
+    def recv(self, frame):       
         image_cv = frame.to_ndarray(format="bgr24")
         image_height, image_width, channels = image_cv.shape[:3]
 
@@ -295,18 +306,6 @@ class VideoProcessor:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
-
-        if self.target_person_id != current_target_person_id:
-            if self.target_person_id == "P01":
-                model = torch.load("model/model_P01.pth")
-            elif self.target_person_id == "P14":
-                model = torch.load("model/model_P14.pth")
-            elif self.target_person_id == "P21":
-                model = torch.load("model/model_P21.pth")
-            elif self.target_person_id == "P25":
-                model = torch.load("model/model_P25.pth")
-            elif self.target_person_id == "P26":
-                model = torch.load("model/model_P26.pth")
             
         if is_detected_face == True:
             out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
