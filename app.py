@@ -26,7 +26,7 @@ st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
-target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"), key="P01")
 
 import platform
 import psutil
@@ -38,7 +38,40 @@ st.write("GPU: ", torch.cuda.is_available())
 
 str_message1 = ""
 str_message2 = ""
-current_target_person_id = "P01"
+
+
+# data transform
+transform = transforms.Compose([
+    #transforms.Resize((160, 160)),
+    transforms.ToTensor(),
+])
+
+# training model path
+#model_path = "model/model.pth"
+# load model
+#model = torch.load(model_path)
+
+if target_person_id == "P01":
+    model = torch.load("model/model_P01.pth")
+elif target_person_id == "P14":
+    model = torch.load("model/model_P14.pth")
+elif target_person_id == "P21":
+    model = torch.load("model/model_P21.pth")
+elif target_person_id == "P25":
+    model = torch.load("model/model_P25.pth")
+elif target_person_id == "P26":
+    model = torch.load("model/model_P26.pth")
+
+# load device : cpu
+device = torch.device("cpu")
+model.to(device)
+
+# モデルを評価モードにする
+model.eval()
+
+magrin = 5
+
+
 
 def pil2cv(image):
     ''' PIL型 --> OpenCV型 '''
@@ -250,38 +283,6 @@ def prediction(model, crop_image):
         _, predicted = torch.max(outputs, 1)
 
     return predicted, graph_image
-
-
-# data transform
-transform = transforms.Compose([
-    #transforms.Resize((160, 160)),
-    transforms.ToTensor(),
-])
-
-# training model path
-#model_path = "model/model.pth"
-# load model
-#model = torch.load(model_path)
-
-if target_person_id == "P01":
-    model = torch.load("model/model_P01.pth")
-elif target_person_id == "P14":
-    model = torch.load("model/model_P14.pth")
-elif target_person_id == "P21":
-    model = torch.load("model/model_P21.pth")
-elif target_person_id == "P25":
-    model = torch.load("model/model_P25.pth")
-elif target_person_id == "P26":
-    model = torch.load("model/model_P26.pth")
-
-# load device : cpu
-device = torch.device("cpu")
-model.to(device)
-
-# モデルを評価モードにする
-model.eval()
-
-magrin = 5
 
 
 RTC_CONFIGURATION = RTCConfiguration(
