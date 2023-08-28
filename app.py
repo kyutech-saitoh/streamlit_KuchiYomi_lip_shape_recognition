@@ -293,7 +293,6 @@ RTC_CONFIGURATION = RTCConfiguration(
 class VideoProcessor:
     def __init__(self) -> None:
         self.is_mirroring = True
-        self.target_person_id = current_target_person_id
         self.current_time = time.perf_counter()
 
     def recv(self, frame):       
