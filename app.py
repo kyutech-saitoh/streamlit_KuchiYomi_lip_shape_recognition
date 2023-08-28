@@ -26,8 +26,6 @@ st.title("Six mouth shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
-target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"), key="P01")
-
 import platform
 import psutil
 
@@ -38,40 +36,6 @@ st.write("GPU: ", torch.cuda.is_available())
 
 str_message1 = ""
 str_message2 = ""
-
-
-# data transform
-transform = transforms.Compose([
-    #transforms.Resize((160, 160)),
-    transforms.ToTensor(),
-])
-
-# training model path
-#model_path = "model/model.pth"
-# load model
-#model = torch.load(model_path)
-
-if target_person_id == "P01":
-    model = torch.load("model/model_P01.pth")
-elif target_person_id == "P14":
-    model = torch.load("model/model_P14.pth")
-elif target_person_id == "P21":
-    model = torch.load("model/model_P21.pth")
-elif target_person_id == "P25":
-    model = torch.load("model/model_P25.pth")
-elif target_person_id == "P26":
-    model = torch.load("model/model_P26.pth")
-
-# load device : cpu
-device = torch.device("cpu")
-model.to(device)
-
-# モデルを評価モードにする
-model.eval()
-
-magrin = 5
-
-
 
 def pil2cv(image):
     ''' PIL型 --> OpenCV型 '''
@@ -285,6 +249,26 @@ def prediction(model, crop_image):
     return predicted, graph_image
 
 
+# data transform
+transform = transforms.Compose([
+    #transforms.Resize((160, 160)),
+    transforms.ToTensor(),
+])
+
+# training model path
+model_path = "model/model_P01.pth"
+# load model
+model = torch.load(model_path)
+# load device : cpu
+device = torch.device("cpu")
+model.to(device)
+
+# モデルを評価モードにする
+model.eval()
+
+magrin = 5
+
+
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 )
@@ -293,9 +277,10 @@ RTC_CONFIGURATION = RTCConfiguration(
 class VideoProcessor:
     def __init__(self) -> None:
         self.is_mirroring = True
+        self.target_person_id = "P001"
         self.current_time = time.perf_counter()
 
-    def recv(self, frame):       
+    def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
         image_height, image_width, channels = image_cv.shape[:3]
 
@@ -306,7 +291,7 @@ class VideoProcessor:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
-            
+
         if is_detected_face == True:
             out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
     
@@ -340,4 +325,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
-    #webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+    webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P001", "P002", "P003"))
