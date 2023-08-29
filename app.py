@@ -339,4 +339,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
-    webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+    #webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
