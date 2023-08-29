@@ -48,15 +48,15 @@ model = torch.load(model_path)
 
 target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
 
-if self.target_person_id == "P01":
+if target_person_id == "P01":
     model = torch.load("model/model_P01.pth")
-elif self.target_person_id == "P14":
+elif target_person_id == "P14":
     model = torch.load("model/model_P14.pth")
-elif self.target_person_id == "P21":
+elif target_person_id == "P21":
     model = torch.load("model/model_P21.pth")
-elif self.target_person_id == "P25":
+elif target_person_id == "P25":
     model = torch.load("model/model_P25.pth")
-elif self.target_person_id == "P26":
+elif target_person_id == "P26":
     model = torch.load("model/model_P26.pth")
 
 # load device : cpu
