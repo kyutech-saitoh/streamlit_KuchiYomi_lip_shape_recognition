@@ -34,6 +34,40 @@ st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
 st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
 st.write("GPU: ", torch.cuda.is_available())
 
+
+# data transform
+transform = transforms.Compose([
+    #transforms.Resize((160, 160)),
+    transforms.ToTensor(),
+])
+
+# training model path
+model_path = "model/model_P01.pth"
+# load model
+model = torch.load(model_path)
+
+target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+
+if self.target_person_id == "P01":
+    model = torch.load("model/model_P01.pth")
+elif self.target_person_id == "P14":
+    model = torch.load("model/model_P14.pth")
+elif self.target_person_id == "P21":
+    model = torch.load("model/model_P21.pth")
+elif self.target_person_id == "P25":
+    model = torch.load("model/model_P25.pth")
+elif self.target_person_id == "P26":
+    model = torch.load("model/model_P26.pth")
+
+# load device : cpu
+device = torch.device("cpu")
+model.to(device)
+
+# モデルを評価モードにする
+model.eval()
+
+magrin = 5
+
 str_message1 = ""
 str_message2 = ""
 
@@ -249,25 +283,6 @@ def prediction(model, crop_image):
     return predicted, graph_image
 
 
-# data transform
-transform = transforms.Compose([
-    #transforms.Resize((160, 160)),
-    transforms.ToTensor(),
-])
-
-# training model path
-model_path = "model/model_P01.pth"
-# load model
-model = torch.load(model_path)
-# load device : cpu
-device = torch.device("cpu")
-model.to(device)
-
-# モデルを評価モードにする
-model.eval()
-
-magrin = 5
-
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -290,7 +305,7 @@ class VideoProcessor:
             out_image_cv = cv2.flip(image_cv, 1)
         else:
             out_image_cv = image_cv.copy()
-
+    
         if is_detected_face == True:
             out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
     
@@ -324,4 +339,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
-    webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P001", "P002", "P003"))
+    webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
