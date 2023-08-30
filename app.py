@@ -220,7 +220,7 @@ def LFROI_extraction(image):
                 LFROI = normalized_image[rect_LFROI[1]:rect_LFROI[3], rect_LFROI[0]:rect_LFROI[2]]
 
             is_detected_face = True
-            out_image = normalized_image.copy()
+            st.image(normalized_image)
 
             return out_image, LFROI, is_detected_face
 
