@@ -25,4 +25,4 @@ PCだけでなくタブレットやスマートフォンでもお試しいただ
 - MediaPipe
 - CNN
 
-https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/
+[https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/](https://kyutech-saitoh-lipwatch.streamlit.app/)https://kyutech-saitoh-lipwatch.streamlit.app/
