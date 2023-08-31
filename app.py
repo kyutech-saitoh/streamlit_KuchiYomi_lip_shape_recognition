@@ -300,7 +300,7 @@ class VideoProcessor:
         image_height, image_width, channels = image_cv.shape[:3]
 
         # LFROI extraction
-        #image_cv, LFROI_cv, is_detected_face = LFROI_extraction(image_cv)
+        image_cv, LFROI_cv, is_detected_face = LFROI_extraction(image_cv)
 
         #if self.is_mirroring == True:
             #out_image_cv = cv2.flip(image_cv, 1)
