@@ -151,11 +151,11 @@ def LFROI_extraction_sub(image, face_points0):
     ty = image_cy - cy
     mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
 
-    image_width_ = int(image_width)
-    image_height_ = int(image_height)
+    #image_width_ = int(image_width)
+    #image_height_ = int(image_height)
 
-    normalized_image1 = cv2.warpAffine(image, mat_rot, (image_width_, image_height_))
-    normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (image_width_, image_height_))
+    normalized_image1 = cv2.warpAffine(image, mat_rot, (int(image_width), int(image_height)))
+    normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (int(image_width), int(image_height)))
 
     face_points1 = []
     for p0 in face_points0:
@@ -184,7 +184,7 @@ def LFROI_extraction_sub(image, face_points0):
     str_message1 = "eye distance = %.0f pixel" % eye_distance
     str_message2 = "angle = %.2f (%d,%d)-(%d,%d), %f" % (eye_angle, left_eye_x, left_eye_y, right_eye_x,  right_eye_y, value)
 
-    return (left, top, right, bottom), normalized_image1, face_points1
+    return (left, top, right, bottom), normalized_image2, face_points1
 
 
 def LFROI_extraction(image):
