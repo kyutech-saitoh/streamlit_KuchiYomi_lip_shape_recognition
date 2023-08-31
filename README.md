@@ -1,4 +1,4 @@
-# Kuchiyomi: lip shape recognition
+# KuchiYomi: lip shape recognition
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://kyutech-saitoh-lipwatch.streamlit.app)
 
@@ -17,7 +17,6 @@ You can try it not only on your PC but also on your tablet or smartphone.
 - Web camera
 - MediaPipe
 - CNN
----
 
 # クチヨミ：口形認識
 
