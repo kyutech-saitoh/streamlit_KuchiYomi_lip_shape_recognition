@@ -169,7 +169,7 @@ def LFROI_extraction_sub(image, face_points0):
     bottom = top + target_eye_distance
 
     str_message1 = "eye distance = %.0f pixel" % eye_distance
-    str_message2 = "angle = %.2f (%d,%d)-(%d,%d), %f" % (eye_angle, left_eye_x, left_eye_y, right_eye_x,  right_eye_y, value)
+    str_message2 = "angle = %.2f deg" % eye_angle
     
     return (left, top, right, bottom), normalized_image2, face_points3
 
