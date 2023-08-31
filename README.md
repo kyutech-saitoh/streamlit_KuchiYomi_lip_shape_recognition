@@ -1,4 +1,4 @@
-<img src="data/logo.png" width="200">
+<img src="data/logo.png" width="400">
 
 # KuchiYomi: lip shape recognition
 
