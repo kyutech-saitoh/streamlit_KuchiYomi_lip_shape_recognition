@@ -157,18 +157,27 @@ def LFROI_extraction_sub(image, face_points0):
     normalized_image1 = cv2.warpAffine(image, mat_rot, (int(image_width), int(image_height)))
     normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (int(image_width), int(image_height)))
 
-    face_points1 = []
-    for p0 in face_points0:
-        x0 = p0[0]
-        y0 = p0[1]
-        x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
-        y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
-        x2 = int(x1 + mat_tra[0][2])
-        y2 = int(y1 + mat_tra[1][2])
+    #face_points1 = []
 
-        cv2.circle(normalized_image2, center=(x2, y2), radius=1, color=(255, 255, 255), thickness=-1)
+    cv2.transform(face_point0, face_points1, mat_rot)
+    cv2.transform(face_point1, face_points2, mat_tra)
 
-        face_points1.append((x2, y2))
+    for p0 in face_points2:
+        x = p0[0]
+        y = p0[0]
+        cv2.circle(normalized_image2, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
+
+    #for p0 in face_points0:
+    #    x0 = p0[0]
+    #    y0 = p0[1]
+    #    x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
+    #    y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
+    #    x2 = int(x1 + mat_tra[0][2])
+    #    y2 = int(y1 + mat_tra[1][2])
+
+    #    cv2.circle(normalized_image2, center=(x2, y2), radius=1, color=(255, 255, 255), thickness=-1)
+
+    #    face_points1.append((x2, y2))
 
     #cx = face_points1[2][0]
     #left = int(cx - size_LFROI / 2)
