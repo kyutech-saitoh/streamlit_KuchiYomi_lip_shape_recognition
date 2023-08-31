@@ -214,9 +214,9 @@ def LFROI_extraction(image):
                     y = func(landmark.y, image_height)
                     if index in [33, 263, 2, 61, 291]:
                         cv2.circle(out_image, center=(x, y), radius=2, color=(0, 0, 255), thickness=-1)
-                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     else:
-                        cv2.circle(out_image, center=(x, y), radius=3, color=(0, 255, 0), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
 
 
