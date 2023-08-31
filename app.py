@@ -159,11 +159,11 @@ def LFROI_extraction_sub(image, face_points0):
 
     #face_points1 = []
 
-    #face_point0 = np.reshape(face_point0, [len(face_point0), 1, 2])
-    face_points1 = cv2.transform(face_point0, mat_rot, face_point0.shape)
-    face_points2 = cv2.transform(face_point1, mat_tra, face_point1.shape)
+    face_points1 = np.array([face_points0])
+    face_points2 = cv2.transform(face_points1, mat_rot)
+    face_points3 = cv2.transform(face_points2, mat_tra)
 
-    for p0 in face_points2:
+    for p0 in face_points3[0]:
         x = p0[0]
         y = p0[0]
         cv2.circle(normalized_image2, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
@@ -197,7 +197,7 @@ def LFROI_extraction_sub(image, face_points0):
     str_message2 = "angle = %.2f (%d,%d)-(%d,%d), %f" % (eye_angle, left_eye_x, left_eye_y, right_eye_x,  right_eye_y, value)
     str_message1 = face_points1.shape
     
-    return (left, top, right, bottom), normalized_image2, face_points2
+    return (left, top, right, bottom), normalized_image2, face_points3[0]
 
 
 def LFROI_extraction(image):
