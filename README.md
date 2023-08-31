@@ -1,4 +1,4 @@
-# LipWatch: Image-based real-time lip shape recognition
+# Kuchiyomi: lip shape recognition
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://kyutech-saitoh-lipwatch.streamlit.app)
 
@@ -18,6 +18,8 @@ You can try it not only on your PC but also on your tablet or smartphone.
 - MediaPipe
 - CNN
 ---
+
+# クチヨミ：口形認識
 
 日本語6口形（5母音＋閉唇）認識のデモプログラムです。研究用のため、随時更新します。
 上記URLにアクセスしてアプリを起動してお試しいただけます。
