@@ -159,8 +159,9 @@ def LFROI_extraction_sub(image, face_points0):
 
     #face_points1 = []
 
-    face_points1 = cv2.transform(face_point0, mat_rot)
-    face_points2 = cv2.transform(face_point1, mat_tra)
+    #face_point0 = np.reshape(face_point0, [len(face_point0), 1, 2])
+    face_points1 = cv2.transform(face_point0, mat_rot, face_point0.shape)
+    face_points2 = cv2.transform(face_point1, mat_tra, face_point1.shape)
 
     for p0 in face_points2:
         x = p0[0]
