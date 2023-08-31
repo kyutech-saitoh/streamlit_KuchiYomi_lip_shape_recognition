@@ -136,10 +136,7 @@ def LFROI_extraction_sub(image, face_points0):
     else:
         eye_angle = 0
 
-    #eye_angle = -eye_angle * math.pi / 180
-    #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
     eye_angle = math.degrees(eye_angle)
-    #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
     target_eye_distance = 160
     scale = target_eye_distance / eye_distance
@@ -151,41 +148,18 @@ def LFROI_extraction_sub(image, face_points0):
     ty = image_cy - cy
     mat_tra = np.float32([[1, 0, tx], [0, 1, ty]])
 
-    #image_width_ = int(image_width)
-    #image_height_ = int(image_height)
-
     normalized_image1 = cv2.warpAffine(image, mat_rot, (int(image_width), int(image_height)))
     normalized_image2 = cv2.warpAffine(normalized_image1, mat_tra, (int(image_width), int(image_height)))
-
-    #face_points1 = []
 
     face_points1 = np.array([face_points0])
     face_points2 = cv2.transform(face_points1, mat_rot)
     face_points3 = cv2.transform(face_points2, mat_tra)
     face_points3 = np.squeeze(face_points3)
     
-    for p in face_points3:
-        x = p[0]
-        y = p[1]
-        cv2.circle(normalized_image2, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
-
-    #for p0 in face_points0:
-    #    x0 = p0[0]
-    #    y0 = p0[1]
-    #    x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
-    #    y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
-    #    x2 = int(x1 + mat_tra[0][2])
-    #    y2 = int(y1 + mat_tra[1][2])
-
-    #    cv2.circle(normalized_image2, center=(x2, y2), radius=1, color=(255, 255, 255), thickness=-1)
-
-    #    face_points1.append((x2, y2))
-
-    #cx = face_points1[2][0]
-    #left = int(cx - size_LFROI / 2)
-    #top = int(face_points1[2][1] - size_LFROI / 4)
-    #right = left + size_LFROI
-    #bottom = top + size_LFROI
+    #for p in face_points3:
+    #    x = p[0]
+    #    y = p[1]
+    #    cv2.circle(normalized_image2, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
     lip_x = (face_points3[61][0] + face_points3[291][0]) / 2
     lip_y = (face_points3[61][1] + face_points3[291][1]) / 2
@@ -196,7 +170,6 @@ def LFROI_extraction_sub(image, face_points0):
 
     str_message1 = "eye distance = %.0f pixel" % eye_distance
     str_message2 = "angle = %.2f (%d,%d)-(%d,%d), %f" % (eye_angle, left_eye_x, left_eye_y, right_eye_x,  right_eye_y, value)
-    #str_message1 = face_points1.shape
     
     return (left, top, right, bottom), normalized_image2, face_points3
 
