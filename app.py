@@ -309,16 +309,16 @@ class VideoProcessor:
             out_image_cv = image_cv.copy()
         #out_image_cv = image_cv.copy()
     
-        #if is_detected_face == True:
-            #out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
+        if is_detected_face == True:
+            out_image_cv[magrin:size_LFROI+magrin, magrin:size_LFROI+magrin] = LFROI_cv
     
-            #LFROI_array = cv2pil(LFROI_cv)
+            LFROI_array = cv2pil(LFROI_cv)
             #crop_image_pil = preprocess(LFROI_array, transform)
-            #crop_image_pil = preprocess(LFROI_cv, transform)
+            crop_image_pil = preprocess(LFROI_cv, transform)
     
             # predict
-            #predict, graph_image_cv = prediction(model, crop_image_pil)
-            #out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+            predict, graph_image_cv = prediction(model, crop_image_pil)
+            out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
         
         cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
