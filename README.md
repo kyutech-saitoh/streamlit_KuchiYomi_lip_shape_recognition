@@ -1,6 +1,6 @@
-# Six mouth shape recognition
+# LipWatch: Image-based real-time lip shape recognition
 
-This is a demo program for recognizing Japanese six mouth shape (five vowels + closed lips).
+This is a demo program for recognizing Japanese six lip shape (five vowels + closed lips).
 It is for research purposes and will be updated from time to time.
 You can access the URL below and launch the app to try it out.
 You can try it not only on your PC but also on your tablet or smartphone.
@@ -10,7 +10,7 @@ You can try it not only on your PC but also on your tablet or smartphone.
 - MediaPipe
 - CNN
 
-https://kyutech-saitoh-mouth-shape-recognition.streamlit.app/
+https://kyutech-saitoh-lipwatch.streamlit.app/
 
 ![QR](data/QR.png)
 
