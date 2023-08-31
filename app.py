@@ -164,9 +164,9 @@ def LFROI_extraction_sub(image, face_points0):
     face_points3 = cv2.transform(face_points2, mat_tra)
     face_points3 = np.squeeze(face_points3)
     
-    for p0 in face_points3:
-        x = p0[0]
-        y = p0[0]
+    for p in face_points3:
+        x = p[0]
+        y = p[1]
         cv2.circle(normalized_image2, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
 
     #for p0 in face_points0:
