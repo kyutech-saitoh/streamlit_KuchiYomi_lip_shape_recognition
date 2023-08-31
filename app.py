@@ -163,8 +163,8 @@ def LFROI_extraction_sub(image, face_points0):
         y0 = p0[1]
         x1 = mat_rot[0][0] * x0 + mat_rot[1][0] * y0 + mat_rot[0][2]
         y1 = mat_rot[0][1] * x0 + mat_rot[1][1] * y0 + mat_rot[1][2]
-        x2 = x1 + mat_tra[0][2]
-        y2 = y1 + mat_tra[1][2]
+        x2 = int(x1 + mat_tra[0][2])
+        y2 = int(y1 + mat_tra[1][2])
 
         cv2.circle(normalized_image2, center=(x2, y2), radius=1, color=(255, 255, 255), thickness=-1)
 
