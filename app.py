@@ -209,12 +209,17 @@ def LFROI_extraction(image):
         if results.multi_face_landmarks:
             for face in results.multi_face_landmarks:
                 points = []
-                for landmark in face.landmark:
+                for index, landmark in enumerate(face.landmark):
                     x = func(landmark.x, image_width)
                     y = func(landmark.y, image_height)
-                    cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
-                    cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
+                    if index in [33, 263, 2, 61, 291]:
+                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 0, 255), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
+                    else:
+                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
+
 
                 rect_LFROI, normalized_image, new_points_LFROI = LFROI_extraction_sub(image, points)
                 LFROI = normalized_image[rect_LFROI[1]:rect_LFROI[3], rect_LFROI[0]:rect_LFROI[2]]
