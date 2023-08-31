@@ -181,7 +181,7 @@ def LFROI_extraction_sub(image, face_points0):
     bottom = top + target_eye_distance
 
     str_message1 = "eye distance = %.0f pixel" % eye_distance
-    str_message2 = "angle = %.1f" % eye_angle
+    str_message2 = "angle = %.1f (%d,%d)-(%d,%d)" % (eye_angle, left_eye_x, left_eye_y, right_eye_x,  right_eye_y)
 
     return (left, top, right, bottom), normalized_image2, face_points1
 
@@ -213,10 +213,10 @@ def LFROI_extraction(image):
                     x = func(landmark.x, image_width)
                     y = func(landmark.y, image_height)
                     if index in [33, 263, 2, 61, 291]:
-                        cv2.circle(out_image, center=(x, y), radius=3, color=(0, 0, 255), thickness=-1)
-                        cv2.circle(out_image, center=(x, y), radius=2, color=(255, 255, 255), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=3, color=(0, 255, 0), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     else:
-                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 255, 0), thickness=-1)
+                        cv2.circle(out_image, center=(x, y), radius=2, color=(0, 0, 255), thickness=-1)
                         cv2.circle(out_image, center=(x, y), radius=1, color=(255, 255, 255), thickness=-1)
                     points.append((x, y))
 
