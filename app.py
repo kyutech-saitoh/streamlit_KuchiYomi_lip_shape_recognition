@@ -137,7 +137,7 @@ def LFROI_extraction_sub(image, face_points0):
 
     #eye_angle = -eye_angle * math.pi / 180
     #eye_angle = math.atan2(left_eye_y - right_eye_y, left_eye_x - right_eye_x)
-    eye_angle = math.degrees(eye_angle)
+    #eye_angle = math.degrees(eye_angle)
     #eye_angle = eye_angle if eye_angle >= 0 else eye_angle + 180
 
     target_eye_distance = 160
@@ -315,8 +315,8 @@ class VideoProcessor:
             crop_image_pil = preprocess(LFROI_cv, transform)
     
             # predict
-            #predict, graph_image_cv = prediction(model, crop_image_pil)
-            #out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
+            predict, graph_image_cv = prediction(model, crop_image_pil)
+            out_image_cv[magrin:magrin+size_graph_height, image_width-1-magrin-size_graph_width:image_width-1-magrin] = graph_image_cv
         
         cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
         cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
