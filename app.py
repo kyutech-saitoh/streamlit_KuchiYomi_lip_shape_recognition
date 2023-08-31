@@ -22,7 +22,7 @@ size_graph_width = 200 # [pixel]
 size_graph_height = 140 # [pixel]
 previous_time = time.perf_counter() # [sec]
 
-st.title("VowelWatch: Image-based Mouth Shape Recognition")
+st.title("LipWatch: Image-based real-time lip shape recognition")
 st.write("Kyutech, Saitoh-lab")
 st.markdown("---")
 
