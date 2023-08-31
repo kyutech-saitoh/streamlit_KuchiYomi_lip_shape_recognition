@@ -1,3 +1,5 @@
+![logo](data/logo.png)
+
 # KuchiYomi: lip shape recognition
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://kyutech-saitoh-lipwatch.streamlit.app)
