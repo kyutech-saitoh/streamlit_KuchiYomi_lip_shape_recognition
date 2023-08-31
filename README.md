@@ -1,5 +1,3 @@
-# KuchiYomi: lip shape recognition
-
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://kyutech-saitoh-lipwatch.streamlit.app)
 
 https://kyutech-saitoh-lipwatch.streamlit.app/
@@ -7,6 +5,8 @@ https://kyutech-saitoh-lipwatch.streamlit.app/
 ![QR](data/QR.png)
 
 ---
+
+# KuchiYomi: lip shape recognition
 
 This is a demo program for recognizing Japanese six lip shape (five vowels + closed lips).
 It is for research purposes and will be updated from time to time.
