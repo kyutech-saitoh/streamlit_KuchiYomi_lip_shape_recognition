@@ -1,6 +1,6 @@
 <img src="data/logo.png" width="400">
 
-# Kuchiyomi: mouth shape recognition
+# KuchiYomi: mouth shape recognition
 
 2023/9/1
 
