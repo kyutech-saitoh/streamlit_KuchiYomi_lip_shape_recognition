@@ -10,7 +10,7 @@ https://kuchiyomi-mouth-shape-recognition.streamlit.app/
 
 ![QR](data/QR.png)
 
-This is a demo program for real-time mouth shape recognition for six Japanese vowels (the five vowel mouth shapes of "a," "i," "u," "e," and "o," and the closed lip shape of "n.").
+This is a demo program for real-time mouth shape recognition for six Japanese vowels (the five vowel mouth shapes of 'a,' 'i,' 'u,' 'e,' and 'o,' and the closed lip shape of 'N.').
 For research purposes, it will be updated from time to time.
 
 - You can try it out by accessing the URL above and launching the app.
