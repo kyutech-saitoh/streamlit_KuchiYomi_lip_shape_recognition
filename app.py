@@ -3,14 +3,9 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import av
 import cv2
 from PIL import Image
-
-#import subprocess
-
 import time
-#import random
 
 import process
-
 
 previous_time = time.perf_counter() # [sec]
 
@@ -20,8 +15,8 @@ st.title("KuchiYomi: mouth shape recognition")
 st.write("Kyutech, [Saitoh-lab](https://www.saitoh-lab.com/)")
 st.markdown("---")
 
-import platform
-import psutil
+#import platform
+#import psutil
 
 #st.write("OS: " + platform.platform())
 #st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
