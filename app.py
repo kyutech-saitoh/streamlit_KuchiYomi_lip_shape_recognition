@@ -1,13 +1,10 @@
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import av
-import numpy as np
-
-import mediapipe as mp
-import subprocess
+#import subprocess
 
 import time
-import random
+#import random
 
 import process
 
