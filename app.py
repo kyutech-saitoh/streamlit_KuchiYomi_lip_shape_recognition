@@ -46,11 +46,12 @@ class VideoProcessor:
         
         out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
 
-        #str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
-        #cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
-        #self.current_time = time.perf_counter()
+        str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
+        cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        cv2.putText(image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        self.current_time = time.perf_counter()
 
-        return av.VideoFrame.from_ndarray(out_image_cv, format="bgr24")
+        return av.VideoFrame.from_ndarray(image_cv, format="bgr24")
 
 
 webrtc_ctx = webrtc_streamer(
