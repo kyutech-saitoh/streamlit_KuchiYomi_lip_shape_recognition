@@ -42,9 +42,9 @@ class VideoProcessor:
     def recv(self, frame):
         image_cv = frame.to_ndarray(format="bgr24")
 
-        out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
-
         image_height, image_width, channels = image_cv.shape[:3]
+        
+        out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
 
         str = "%.1f fps" % (1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
