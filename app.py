@@ -16,7 +16,7 @@ previous_time = time.perf_counter() # [sec]
 
 st.image("data/logo.png", width=400)
 
-st.title("Kuchiyomi: mouth shape recognition")
+st.title("KuchiYomi: mouth shape recognition")
 st.write("Kyutech, [Saitoh-lab](https://www.saitoh-lab.com/)")
 st.markdown("---")
 
