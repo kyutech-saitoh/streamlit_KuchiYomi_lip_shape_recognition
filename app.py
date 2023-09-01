@@ -44,13 +44,15 @@ transform = transforms.Compose([
 ])
 
 # training model path
-model_path = "model/model_P01.pth"
+model_path = "model/model_P00.pth"
 # load model
 model = torch.load(model_path)
 
-target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+target_person_id = st.selectbox("select target person", ("P00", "P01", "P14", "P21", "P25", "P26"))
 
-if target_person_id == "P01":
+if target_person_id == "P00":
+    model = torch.load("model/model_P00.pth")
+elif target_person_id == "P01":
     model = torch.load("model/model_P01.pth")
 elif target_person_id == "P14":
     model = torch.load("model/model_P14.pth")
@@ -337,4 +339,4 @@ webrtc_ctx = webrtc_streamer(
 
 if webrtc_ctx.video_processor:
     webrtc_ctx.video_processor.is_mirroring = st.checkbox("Check the checkbox to flip horizontally.", value=True)
-    #webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P01", "P14", "P21", "P25", "P26"))
+    #webrtc_ctx.video_processor.target_person_id = st.selectbox("select target person", ("P00", "P01", "P14", "P21", "P25", "P26"))
