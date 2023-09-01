@@ -256,7 +256,8 @@ def prediction(model, crop_image):
 
     return predicted, graph_image
 
-def lip_reading(image, is_mirroring):
+
+def lip_reading(image_cv, is_mirroring):
     image_height, image_width, channels = image_cv.shape[:3]
 
     # LFROI extraction
@@ -282,4 +283,5 @@ def lip_reading(image, is_mirroring):
     
     cv2.putText(out_image_cv, str_message1, (20, image_height-60), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
     cv2.putText(out_image_cv, str_message2, (20, image_height-40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 255, 255), 1)
-  
+
+    return out_image_cv
