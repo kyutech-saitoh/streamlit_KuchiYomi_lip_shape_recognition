@@ -23,10 +23,10 @@ st.markdown("---")
 import platform
 import psutil
 
-st.write("OS: " + platform.platform())
-st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
-st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
-st.write("GPU: ", torch.cuda.is_available())
+#st.write("OS: " + platform.platform())
+#st.write("CPU: %.0f MHz" % psutil.cpu_freq().current)
+#st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
+#st.write("GPU: ", torch.cuda.is_available())
 
 target_person_id = st.selectbox("select target person", ("P00", "P01", "P14", "P21", "P25", "P26"))
 
