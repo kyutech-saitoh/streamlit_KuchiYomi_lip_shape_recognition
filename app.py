@@ -16,7 +16,7 @@ previous_time = time.perf_counter() # [sec]
 
 st.image("data/logo.png", width=400)
 
-st.title("KuchiYomi: lip shape recognition")
+st.title("Kuchiyomi: mouth shape recognition")
 st.write("Kyutech, [Saitoh-lab](https://www.saitoh-lab.com/)")
 st.markdown("---")
 
@@ -28,7 +28,7 @@ import psutil
 #st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
 #st.write("GPU: ", torch.cuda.is_available())
 
-target_person_id = st.selectbox("select target person", ("P00", "P01", "P14", "P21", "P25", "P26"))
+target_person_id = st.selectbox("select target model", ("P00", "P01", "P14", "P21", "P25", "P26"))
 
 process.set_model(target_person_id)
 
