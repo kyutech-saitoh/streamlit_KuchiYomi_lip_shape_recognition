@@ -23,7 +23,10 @@ st.markdown("---")
 #st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
 #st.write("GPU: ", torch.cuda.is_available())
 
-target_person_id = st.selectbox("select target model", ("P00", "P01", "P14", "P21", "P25", "P26"))
+target_person_id = st.selectbox("select target model", ("P00", "P01", "P02", "P03", "P04", "P05", "P08", "P09", "P11", "P12",
+                                                        "P14", "P15", "P21", "P22", "P24", "P25", "P26", "P27", "P28", "P29",
+                                                        "P30", "P31", "P32", "P33", "P34", "P35", "P36", "P37", "P38", "P39",
+                                                        "P40", "P41", "P42"))
 
 process.set_model(target_person_id)
 
