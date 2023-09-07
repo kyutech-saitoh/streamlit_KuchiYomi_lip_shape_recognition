@@ -27,6 +27,9 @@ model_path = "model/model_P00.pth"
 model = torch.load(model_path)
 
 def set_model(target_person_id):
+    model_file_name = "model/model_" + target_person_id + ".pth"
+    model = torch.load("model_file_name)
+    """
     if target_person_id == "P00":
         model = torch.load("model/model_P00.pth")
     elif target_person_id == "P01":
@@ -39,6 +42,7 @@ def set_model(target_person_id):
         model = torch.load("model/model_P25.pth")
     elif target_person_id == "P26":
         model = torch.load("model/model_P26.pth")
+    """
 
 # load device : cpu
 device = torch.device("cpu")
