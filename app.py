@@ -47,7 +47,7 @@ class VideoProcessor:
         
         out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
 
-        cv2.ellipse(out_image_cv, ((image_width//2, image_height//2), (image_width//4, image_height//4), 0), (255, 255, 255))
+        cv2.ellipse(out_image_cv, ((image_width//2, image_height//2), (image_height//2, image_height//2), 0), (255, 255, 255))
 
         str = "%d x %d pixel, %.1f fps" % (image_width, image_height, 1.0 / (time.perf_counter() - self.current_time))
         cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
