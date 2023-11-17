@@ -5,15 +5,18 @@ import cv2
 from PIL import Image
 import time
 
-import process
+import torch
+from data.labels_list import make_label
+from data.data_augment import Compose, RgbToGray, Normalize, CenterCrop
+import numpy as np
 
 previous_time = time.perf_counter() # [sec]
 
-st.image("data/logo.png", width=400)
+#st.image("data/logo.png", width=400)
 
-st.title("KuchiYomi: mouth shape recognition")
-st.write("Kyutech, [Saitoh-lab](https://www.saitoh-lab.com/)")
-st.markdown("---")
+#st.title("KuchiYomi: lip-reading")
+#st.write("Kyutech, [Saitoh-lab](https://www.saitoh-lab.com/)")
+#st.markdown("---")
 
 #import platform
 #import psutil
@@ -23,17 +26,15 @@ st.markdown("---")
 #st.write("RAM: total %.1f GB, used %.1f %%" % (psutil.virtual_memory().total / 1024.0 / 1024.0 / 1024.0, psutil.virtual_memory().percent))
 #st.write("GPU: ", torch.cuda.is_available())
 
-target_person_id = st.selectbox("select target model (person)", ("P05", "P00", "P01", "P02", "P03", "P04", "P05", "P08", "P09", "P11", "P12",
-                                                        "P14", "P15", "P21", "P22", "P24", "P25", "P26", "P27", "P28", "P29",
-                                                        "P30", "P31", "P32", "P33", "P34", "P35", "P36", "P37", "P38", "P39",
-                                                        "P40", "P41", "P42"))
-
-process.set_model(target_person_id)
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 )
 
+labels = make_label(mode="phoneme")
+character_list = make_label()
+character_dict = {e: idx for idx, e in enumerate(character_list)}
+idx_dict = {idx: e for idx, e in enumerate(character_list)}
 
 class VideoProcessor:
     def __init__(self) -> None:
@@ -45,12 +46,12 @@ class VideoProcessor:
 
         image_height, image_width, channels = image_cv.shape[:3]
         
-        out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
+        #out_image_cv = process.lip_reading(image_cv, self.is_mirroring)
 
-        cv2.ellipse(out_image_cv, ((image_width//2, image_height//2), (image_height//3, image_height//2), 0), (255, 255, 255))
+        cv2.ellipse(image_cv, ((image_width//2, image_height//2), (image_height//3, image_height//2), 0), (255, 255, 255))
 
         str = "%d x %d pixel, %.1f fps" % (image_width, image_height, 1.0 / (time.perf_counter() - self.current_time))
-        cv2.putText(out_image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
+        cv2.putText(image_cv, str, (20, image_height-20), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), 1)
         self.current_time = time.perf_counter()
 
         return av.VideoFrame.from_ndarray(out_image_cv, format="bgr24")
